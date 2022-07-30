@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    form {border: 3px solid #f1f1f1;}
+
+    input {
+        padding:8px;
+        display:block;
+        border:none;
+        border-bottom:1px solid #ccc;
+        width:100%
+    }
+
+    .imagecontainer {
+        text-align: center;
+        margin : 12px 0 6px 0;
+    }
+
+    img.avatar {
+        width: 25%;
+        border-radius: 50%;
+      }
+
+    button {
+        padding:14px 20px;
+        margin: 8px 0;
+        border-radius: 12px;
+        width: 100%;
+    }
+</style>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="imagecontainer">
+        <img src="{% static 'logo.png' %}" alt="Logo" class="avatar">
+    </div>
+
+    <div class="w3-container">
+        
+        {{ form.username.label }}
+        {{ form.username }}
+        <br> 
+
+        {{ form.password1.label }}
+        {{ form.password1 }}
+        <br>
+        
+        {{ form.password2.label }}
+        {{ form.password2 }}
+        <br>
+        <button type="submit" class="w3-button w3-green w3-large">ลงทะเบียนเข้าใช้งาน</button>
+    </div>  
+
+    <div class="w3-bar">
+        <a href="#" class="w3-bar-item w3-button w3-right">Reset</a>
+        <a href="{% url 'login' %}" class="w3-bar-item w3-button w3-right">Login</a>
+        <a href="#" class="w3-bar-item w3-button w3-right">Forget password</a>
+    </div>
+</form>
+
+<br><br><br>
+
+{% endblock content %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    form {border: 3px solid #f1f1f1;}
+
+    input {
+        padding:8px;
+        display:block;
+        border:none;
+        border-bottom:1px solid #ccc;
+        width:100%
+    }
+
+    .imagecontainer {
+        text-align: center;
+        margin : 12px 0 6px 0;
+    }
+
+    img.avatar {
+        width: 25%;
+        border-radius: 50%;
+      }
+
+    button {
+        padding:14px 20px;
+        margin: 8px 0;
+        border-radius: 12px;
+        width: 100%;
+    }
+</style>
+{% if user.profile.image %}
+    <div class="imagecontainer">
+        <img src="{{ user.profile.image.url }}" alt="Logo" class="avatar">
+    </div>
+{% else %}
+    <div class="imagecontainer">
+        <img src="{% static 'logo.png' %}" alt="Logo" class="avatar">
+    </div>
+{% endif %}
+
+<div class="w3-container">
+    <h3 class="w3-center">ข้อมูลส่วนตัว</h3>
+    <table class="w3-table">
+        <tr>
+            <td style="width: 25%;">ยศ</td>
+            <td>{{ user.profile.rank }}</td>
+        </tr>
+        <tr>
+            <td style="width: 25%;">ชื่อ - สกุล</td>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+        </tr>
+        <tr>
+            <td style="width: 25%;">ตำแหน่ง</td>
+            <td>{{ user.profile.position }}</td>
+        </tr>
+        <tr>
+            <td style="width: 25%;">สังกัด</td>
+            <td>{{ user.profile.sector }}</td>
+        </tr>
+        <tr>
+            <td style="width: 25%;">สถานที่ทำงาน</td>
+            <td>{{ user.profile.place }}</td>
+        </tr>
+        <tr>
+            <td style="width: 25%;">หมายเลขโทรศัพท์</td>
+            <td>{{ user.profile.phone }}</td>
+        </tr>
+    </table>
+
+    {% if user.pk == request.user.pk %}
+        <div class="w3-container w3-center">
+            <a href="{% url 'account:profile-update' %}" class="w3-bar-item w3-button w3-center w3-large w3-blue" style="border-radius:12px;">Update</a>
+            <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-center w3-large w3-gray" style="border-radius:12px;">Home</a>
+        </div>
+    {% else %}
+    <div class="w3-container w3-center">
+        <a href="{% url 'account:members' %}" class="w3-bar-item w3-button w3-center w3-blue">List</a>
+        <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-center w3-gray">Home</a>
+    </div>
+    {% endif %}
+    
+</div>
+{% endblock content %}

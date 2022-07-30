@@ -1,0 +1,77 @@
+<!-- TODO : make forms -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Update Profile{% endblock title %}
+{% block content %}
+<style>
+    form {border: 3px solid #f1f1f1;}
+
+    input {
+        padding:8px;
+        display:block;
+        border:none;
+        border-bottom:1px solid #ccc;
+        width:100%
+    }
+
+    .imagecontainer {
+        text-align: center;
+        margin : 12px 0 6px 0;
+    }
+
+    img.avatar {
+        width: 25%;
+        border-radius: 50%;
+      }
+
+    button {
+        padding:14px 20px;
+        margin: 8px 0;
+        border-radius: 12px;
+        width: 100%;
+    }
+</style>
+{% if user.profile.image %}
+    <div class="imagecontainer">
+        <img src="{{ user.profile.image.url }}" alt="Image" class="avatar">
+        <h3>แก้ไขข้อมูลส่วนตัว</h3>
+    </div>
+{% else %}
+    <div class="imagecontainer">
+        <img src="{% static 'logo.png' %}" alt="Logo" class="avatar">
+        <h3>แก้ไขข้อมูลส่วนตัว</h3>
+    </div>
+{% endif %}
+
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="w3-container">
+        
+        {{ form.media }}
+        {{ user_form }}
+        <br> 
+
+        {{ form.media }}
+        {{ profile_form }}
+        <br>
+        
+        <button type="submit" class="w3-button w3-green w3-large">อัพเดท</button>
+    </div>  
+
+    <div class="w3-bar">
+        <button type="reset" class="w3-bar-item w3-button w3-right">Reset</button>
+        <button class="w3-bar-item w3-button w3-right">
+            <a href="{% url 'account:password' %}" style="text-decoration: none;">Change Password</a>
+        </button>
+        <button class="w3-bar-item w3-button w3-right">
+            <a href="{% url 'account:profile' %}" style="text-decoration: none;">Back to Profile</a>
+        </button>
+    </div>
+</form>
+
+<br><br><br>
+
+{% endblock content %}
