@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tz %}
+{% load tags %}
 
 {% block title %}Announce List{% endblock title %}
 
@@ -20,36 +22,68 @@
 </style>
 <br>
 <div class="w3-container w3-center">
-    <h2>ประชาสัมพันธ์</h2>
+    <h2>ประชาสัมพันธ์/สั่งการ</h2>
 </div>
+
+<div class="w3-bar">
+  <form>
+  <a href="{% url 'announce:create' %}" style="text-decoration: none;">
+    <button class="w3-bar-item w3-button w3-right w3-green" style="margin-right: 50px;">
+      <i class="fa fa-far fa-plus-square">
+        สร้าง
+      </i>
+    </button>
+  </a>
+</div>
+<br>
 
 <!-- TODO : Make list -->
 <div class="w3-content">
     <table class="w3-table" id="myTable">
         <tr>
-            <th onclick="sortTable(1)">Rank</th>
-            <th onclick="sortTable(2)">First Name</th>
-            <th onclick="sortTable(3)">Last Name</th>
-            <th onclick="sortTable(4)">Sector</th>
-            <th onclick="sortTable(5)">Place</th>
-            <th onclick="sortTable(6)">Phone</th>
-            <th onclick="sortTable(7)">...</th>
+            <th onclick="sortTable(1)" style="width: 10%;">Type</th>
+            <th onclick="sortTable(2)" style="width: 30%">Name</th>
+            <th onclick="sortTable(3)" style="width: 15%;">Author</th>
+            <th onclick="sortTable(4)" style="width: 20%;">Created</th>
+            <th onclick="sortTable(5)" style="width: 15%;">Status</th>
+            <th onclick="sortTable(6)" style="width: 10%;">...</th>
         </tr>
 
-        {% for member in object_list %}
+        {% for announce in object_list %}
         <tr class="w3-hover-purple">
-            <td>{{ member.profile.rank }}</td>
-            <td>{{ member.first_name }}</td>
-            <td>{{ member.last_name }}</td>
-            <td>{{ member.profile.sector }}</td>
-            <td>{{ member.profile.place }}</td>
-            <td>{{ member.profile.phone }}</td>
+            <td>{{ announce.is_type }}</td>
+            <td>{{ announce.name }}</td>
+            <td>{{ announce.author.profile.rank }}{{ announce.author.get_full_name }}</td>
+            <td>{{ announce.created_at|timezone:"Asia/Bangkok"|thaidate }}</td>
+            <td>{{ announce.status }}</td>
             <td>
-                <a href="{% url 'account:member' member.pk %}" class="w3-button w3-small w3-green">Detail</a>
+                <a href="{% url 'announce:detail' pk=announce.pk %}" class="w3-button w3-small w3-light-blue">Detail</a>
             </td>
         </tr>
         {% endfor %}
     </table>
+
+    <!-- Paginator -->
+    <br>
+    <div class="w3-content w3-right">
+      <div class="pagination">
+        <span class="w3-bar">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="w3-bar-item w3-button w3-light-grey">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="w3-bar-item w3-button">&laquo; previous</a>
+            {% endif %}
+    
+            <span class="w3-bar-item">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="w3-bar-item w3-button">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="w3-bar-item w3-button">last &raquo;</a>
+            {% endif %}
+        </span>
+      </div>
+      <!-- Paginator -->
 </div>
 
 {% endblock content %}

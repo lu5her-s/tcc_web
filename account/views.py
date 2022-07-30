@@ -13,6 +13,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 from account.models import (
     Profile,
@@ -27,7 +28,21 @@ from account.forms import (
     UserForm,
     ProfileForm
     )
+
+from announce.models import Announce
+
 # Create your views here.
+
+class HomeView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login')
+    template_name = 'home.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(HomeView, self).get_context_data(*args, **kwargs)
+        context['not_read'] = Announce.objects.filter(
+            ~Q(author=self.request.user) & ~Q(reads__id=self.request.user.id)
+        ).count()
+        return context
 
 class RegisterView(CreateView):
     ''' for user registration '''
@@ -112,6 +127,7 @@ class LineTokenUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'registration/line_token_form.html'
     model = LineToken
     form_class = LineTokenForm
+    success_url = reverse_lazy('account:line-token')
 
     # def get_context_data(self, **kwargs):
     #     context = super(LineTokenUpdateView, self).get_context_data(**kwargs)

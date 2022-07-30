@@ -14,25 +14,27 @@
     <div class="w3-quarter">
       <div class="w3-container w3-red w3-padding-16">
         <!-- REVIEW : tag a before i -->
-        <a href="#" style="text-decoration:none;">
+        <a href="{% url 'announce:not-read' %}" style="text-decoration:none;" class="w3-clear w3-black">
           <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
           <div class="w3-right">
-            <h3>52</h3>
+            <h3>{{ not_read }}</h3>
           </div>
           <div class="w3-clear"></div>
-          <h4>Messages</h4>
+          <h4>ยังไม่ได้อ่าน</h4>
         </a>
       </div>
     </div>
 
     <div class="w3-quarter">
       <div class="w3-container w3-blue w3-padding-16">
-        <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
-        <div class="w3-right">
-          <h3>99</h3>
-        </div>
-        <div class="w3-clear"></div>
-        <h4>Views</h4>
+        <a href="#" style="text-decoration:none;" class="w3-clear w3-black">
+          <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+          <div class="w3-right">
+            <h3>99</h3>
+          </div>
+          <div class="w3-clear"></div>
+          <h4>Views</h4>
+      </a>
       </div>
     </div>
 

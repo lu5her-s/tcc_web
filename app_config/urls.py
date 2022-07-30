@@ -20,16 +20,18 @@ from django.conf.urls.static import static
 
 # for test template
 from django.views.generic import TemplateView
+from account.views import HomeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     # for test template
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('', HomeView.as_view(), name='home'),
     
     # for manage user account
     path('account/', include('django.contrib.auth.urls')),
     path('account/', include('account.urls')),
-] 
+
+    path('announce/', include('announce.urls', namespace='announce')),
+]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

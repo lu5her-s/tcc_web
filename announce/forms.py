@@ -10,17 +10,18 @@ class LineTokenMultiple(forms.ModelMultipleChoiceField):
         return obj.name
     
 class AnnounceForm(forms.ModelForm):
-    files = forms.FileField(widget=forms.ClearableFileInput(attrs={'class': 'w3-input', 'multiple' : True}), label="เอกสารที่เกี่ยวข้อง")
-    images = forms.ImageField(widget=forms.ClearableFileInput(attrs={'class': 'w3-input', 'multiple': True}), label="รูปภาพ")
-    token = LineTokenMultiple(
+    files = forms.FileField(widget=forms.ClearableFileInput(attrs={'class': 'w3-input', 'multiple' : True}), label="เอกสารที่เกี่ยวข้อง", required=False)
+    images = forms.ImageField(widget=forms.ClearableFileInput(attrs={'class': 'w3-input', 'multiple': True}), label="รูปภาพ", required=False)
+    tokens = LineTokenMultiple(
         queryset=LineToken.objects.all(),
         label="การแจ้งเตือน",
-        widget=widgets.CheckboxSelectMultiple(attrs={'class': 'w3-check'})
+        widget=widgets.CheckboxSelectMultiple(),
+        required=False
     )
     
     class Meta:
         model = Announce
-        fields = ('is_type', 'name', 'detail', 'status', 'author', 'images', 'files', 'token',)
+        fields = ('is_type', 'name', 'detail', 'status', 'author', 'images', 'files', 'tokens',)
         widgets = {
             'is_type' : widgets.Select(attrs={'class': 'w3-select'}),
             'name' : widgets.TextInput(attrs={'class': 'w3-input'}),
@@ -34,5 +35,8 @@ class AnnounceForm(forms.ModelForm):
             'detail' : 'รายละเอียด',
             'status' : 'สถานะ',
             'author' : 'ผู้เขียน',
-            'token' : 'การแจ้งเตือน',
+            'tokens' : 'การแจ้งเตือน',
         }
+
+class SearchForm(forms.Form):
+    text = forms.CharField(label="Search", required=False)

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     
     # internal app
     'account',
-    # 'announce',
+    'announce',
+    'asset',
 ]
 
 MIDDLEWARE = [

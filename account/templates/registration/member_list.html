@@ -18,7 +18,7 @@
         background-color: #f2f2f2;
     }
 </style>
-<br>
+
 <div class="w3-container w3-center">
     <h2>รายชื่อกำลังพล</h2>
 </div>
@@ -49,6 +49,28 @@
         </tr>
         {% endfor %}
     </table>
+
+    <!-- Paginator -->
+    <br>
+    <div class="w3-content w3-right">
+      <div class="pagination">
+        <span class="w3-bar">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="w3-bar-item w3-button w3-light-grey">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="w3-bar-item w3-button">&laquo; previous</a>
+            {% endif %}
+    
+            <span class="w3-bar-item">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="w3-bar-item w3-button">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="w3-bar-item w3-button">last &raquo;</a>
+            {% endif %}
+        </span>
+      </div>
+      <!-- Paginator -->
 </div>
 
 {% endblock content %}

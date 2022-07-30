@@ -14,8 +14,14 @@ def get_file_name(instance, filename):
 class AnnounceType(models.Model):
     name = models.CharField(max_length=200)
     
+    def __str__(self):
+        return self.name
+    
 class AnnounceStatus(models.Model):
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
     
 class Announce(models.Model):
     ''' for announce create '''
@@ -23,7 +29,7 @@ class Announce(models.Model):
     status = models.ForeignKey(AnnounceStatus, on_delete=models.CASCADE, related_name='announce_status')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    detail = models.Textarea()
+    detail = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_delete = models.BooleanField(default=False)

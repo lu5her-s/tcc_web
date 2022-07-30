@@ -26,14 +26,14 @@
             <a href="{% url 'account:profile-update' %}"><strong>Please Update Profile!!!!</strong></a>
           {% endif %}
         </span><br>
-        <a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-pale-red">
-          <i class="fa fa-sign-out"></i>
-        </a>
         <a href="{% url 'account:profile' %}" class="w3-bar-item w3-button w3-pale-blue">
           <i class="fa fa-user"></i>
         </a>
         <a href="#" class="w3-bar-item w3-button w3-light-gray">
           <i class="fa fa-cog"></i>
+        </a>
+        <a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-pale-red">
+          <i class="fa fa-sign-out"></i>
         </a>
       </div>
     <!-- REVIEW : if user not login-->
@@ -59,11 +59,11 @@
     <div class="w3-bar-block">
       <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
       <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  หน้าหลัก</a>
+      <a href="{% url 'announce:list' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  ประชาสัมพันธ์/สั่งการ</a>
       <a href="https://github.com/" target="_blank" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Views</a>
       <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Geo</a>
-      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
-      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
-      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-car fa-fw"></i>  ยานพาหนะ</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  คลัง</a>
       <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
       <a href="{% url 'account:members' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  รายชื่อกำลังพล</a>
       {% if user.is_superuser %}

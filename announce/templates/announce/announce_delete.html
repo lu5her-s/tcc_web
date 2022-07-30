@@ -40,38 +40,23 @@
     {% csrf_token %}
 
     <div class="w3-container">
+        <strong>
+            <h3>ต้องการลบ {{ announce.name }} !!!</h3>
+        </strong>
+        <h5>
+            ยืนยันการลบ {{ announce.is_type }} - {{ announce.name }}
+        </h5>
 
-        {{ form.media }}
-        {{ form }}
-        <br>
-        {% if images %}
-            <p class="w3-text w3-disabled">ภาพปัจจุบัน</p>
-            {% for image in images %}
-            <img src="{{ image.images.url }}" class="w3-image" width="200" height="100">
-            {% endfor %}
-            <br>
-        {% endif %}
-        
-        <button type="submit" class="w3-button w3-green w3-large">{{ btn_text }}</button>
+
+        <button type="submit" class="w3-button w3-red w3-large">{{ btn_text }}</button>
     </div>  
 
     <div class="w3-bar">
-        {% if form.instance.id %}
-            <button class="w3-bar-item w3-button w3-right">
-                <a href="{% url 'announce:delete' pk=form.instance.pk %}">Delete</a>
-            </button>
-            <button type="reset" class="w3-bar-item w3-button w3-right">Reset</button>
-            <button class="w3-bar-item w3-button w3-right">
-                <a href="{% url 'announce:list' %}" style="text-decoration: none;">Cancle</a>
-            </button>
-        {% else %}
         
         <button type="reset" class="w3-bar-item w3-button w3-right">Reset</button>
         <button class="w3-bar-item w3-button w3-right">
-            <a href="{% url 'announce:list' %}" style="text-decoration: none;">Cancle</a>
+            <a href="{% url 'announce:detail' pk=announce.pk %}" style="text-decoration: none;">Cancle</a>
         </button>
-
-        {% endif %}
     </div>
 </form>
 
