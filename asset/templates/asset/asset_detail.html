@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% load tags %}
+
+{% block title %}{{ object.name }} {{ name }} {% endblock title %}
+
+{% block content %}
+
+{% comment %} <link rel="stylesheet" href="{% static 'external/photoswipe/photoswipe.css' %}"> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="{% static 'external/photoswipe/default-skin/default-skin.css' %}"> {% endcomment %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+{% comment %} <script src="{% static 'external/photoswipe/photoswipe.min.js' %}"></script> {% endcomment %}
+{% comment %} <script src="{% static 'external/photoswipe/photoswipe-ui-default.min.js' %}"></script> {% endcomment %}
+{% comment %} <script src="{% static 'js/app.js' %}"</script> {% endcomment %}
+
+<style>
+    form {border: 3px solid #f1f1f1;}
+
+    input {
+        padding:8px;
+        display:block;
+        border:none;
+        border-bottom:1px solid #ccc;
+        width:100%
+    }
+
+    .imagecontainer {
+        text-align: center;
+        margin : 12px 0 6px 0;
+    }
+
+    img.avatar {
+        width: 25%;
+        border-radius: 50%;
+      }
+
+    button {
+        padding:14px 20px;
+        margin: 8px 0;
+        border-radius: 12px;
+        width: 100%;
+    }
+</style>
+
+<div class="w3-container">
+    <h3 class="w3-center">{{ object.name }}</h3>
+    <table class="w3-table">
+        <tr>
+            <td style="width: 25%;">ประเภท</td>
+            <td>{{ object.is_type }}</td>
+
+            {% comment %} <td style="width: 25%;">เรื่อง</td>
+            <td>{{ announce.name }}</td> {% endcomment %}
+        </tr>
+
+        <tr>
+            <td style="width: 5%;">โดย</td>
+            <td>{{ object.author.profile.rank }}{{ object.author.get_full_name }}</td>
+            
+            <td style="width: 5%;">เมื่อ</td>
+            <td>{{ object.created_at|timezone:"Asia/Bangkok"|thaidate }} เวลา 
+                {{ object.created_at|timezone:"Asia/Bangkok"|date:"H:i"}} น.
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width: 25%;">สถานะ</td>
+            <td>{{ object.status }}</td>
+        </tr>
+
+    </table>
+    <br>
+    
+        <table class="w3-table">
+            <tr>
+                <td>รายละเอียด</td>
+            </tr>
+            <tr>
+                <td>
+                    {{ object.detail|linebreaks }}
+                </td>
+            </tr>
+
+            {% if files_list %}
+                {% for f in files_list %}
+                    <tr>
+                        <td>
+                            <a href="{{ f.files.url }}" target="_blank">เอกสารที่เกี่ยวข้อง--{{ f.files.name }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                
+            {% endif %}
+    
+        </table>
+
+
+        {% if images %}
+            {% for item in images %}
+                <a class="col s12 m3" href="{{ item.images.url }}" target="_blank">
+                    <img height="150" width="150" src="{{ item.images.url }}" alt="">
+                </a>
+            
+            {% endfor %}
+        {% endif %}
+        
+                
+        <br>
+        <!-- Read Announce -->
+        <form action="{% url 'announce:read' announce.pk %}" method="POST">
+            {% csrf_token %}
+    
+            {% if user.id == object.author.id %}
+            
+            {% else %}
+                {% if is_read %}
+                <div class="w3-col s2">
+                    <button type="submit" name="announce_id" value="{{ object.pk }}" class="btn btn-success">
+                        <i class="fa fa-fas fa-check"></i> อ่านแล้ว
+                    </button>
+                </div>
+                {% else %}
+                <div class="w3-col s2">
+                    <button type="submit" name="announce_id" value="{{ object.pk }}" class="btn btn-warning">
+                        <i class="fa fa-fas fa-exclamation"></i> ยังไม่ได้อ่าน
+                    </button>
+                </div>
+                {% endif %}
+            {% endif %}
+    
+                
+            </form>
+            <br>
+        
+            <div class="w3-row">
+                <strong class="text-muted">อ่านแล้ว {{ number_of_reader }} คน</strong>
+            </div>
+
+            <br>
+            <hr />
+            {% if user.id == object.author.id %}
+                <p>รายชื่อกำลังพลที่อ่านประชาสัมพันธ์นี้</p>
+                <ol>
+                    {% for reader in object.reads.all %}
+                        <li>{{ reader.profile.rank }}{{ reader.first_name }} {{ reader.last_name }} - {{ reader.profile.sector }} ({{ reader.profile.place }})</li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+
+        <!-- Comment sector --> 
+        
+        {% if comments %}
+        
+        {{ comments_count }} - ความคิดเห็น
+        <hr />
+        <div class="w3-container">
+          {% for data in comments %}
+            <div class="w3-content">
+              <img class="w3-image rounded-circle" src="{{ data.author.profile.image.url }}" width="50" height="50" alt="">
+              <span class="w3-row w3-auto">
+                <h5>{{ data.author.first_name }} {{ data.author.last_name }} - <small>{{ data.created_at | timesince }}</small></h5>
+                {{ data.comment }} <br />
+              </span>
+              
+            </div>
+            <br />
+            <hr />
+          {% endfor %}
+        </div>
+        {% else %}
+        ยังไม่มีความคิดเห็น
+        {% endif %}
+
+        <!-- End Comment %} -->
+        <div class="w3-container">
+            <br />
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="announce_id" value="{{ object.pk }}">
+              <div class="w3-row">
+                <div class="w3-col-md-12">
+                  <div class="w3-input">
+                    <label for="comment">แสดงความคิดเห็น</label>
+                    <textarea class="w3-input" name="comment" id="comment" rows="3"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="w3-row">
+                  <button type="submit" class="w3-bar-item w3-button w3-col s2 w3-rigth w3-large w3-light-blue">ส่งความคิดเห็น</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+    {% if object.author.pk == request.user.pk %}
+        <div class="w3-container w3-center">
+            <a href="{% url 'announce:delete' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-red">Delete</a>
+            <a href="{% url 'announce:list' %}" class="w3-bar-item w3-button w3-center w3-large w3-lime">Back</a>
+            <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-center w3-large w3-gray">Home</a>
+        </div>
+    {% else %}
+    <div class="w3-container w3-center">
+        <a href="{% url 'announce:list' %}" class="w3-bar-item w3-button w3-center w3-blue">List</a>
+        <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-center w3-gray">Home</a>
+    </div>
+    {% endif %}
+    
+</div>
+
+{% endblock content %}
+
+{% block script %}
+
+
+{% endblock script %}
+

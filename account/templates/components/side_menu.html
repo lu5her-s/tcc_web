@@ -63,7 +63,7 @@
       <a href="https://github.com/" target="_blank" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Views</a>
       <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Geo</a>
       <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-car fa-fw"></i>  ยานพาหนะ</a>
-      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  คลัง</a>
+      <a href="{% url 'asset:list' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  คลัง</a>
       <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
       <a href="{% url 'account:members' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  รายชื่อกำลังพล</a>
       {% if user.is_superuser %}

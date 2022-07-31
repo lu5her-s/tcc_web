@@ -31,25 +31,29 @@
 </div>
 <br>
 
-<div class="w3-content">
-    <table class="w3-table" id="myTable">
+<div class="w3-content table-responsive">
+  <table class="w3-table table-bordered" id="dataTable" width="100%" cellspacing="0" cellpadding="0">
+    <thead>
         <tr>
             <th onclick="sortTable(1)" style="width: 20%;">ชื่อโทเคน</th>
             <th onclick="sortTable(2)" style="width: 35%;">Token</th>
             <th onclick="sortTable(3)" style="width: 40%;">หมายเหตุ</th>
             <th onclick="sortTable(4)">...</th>
         </tr>
+      </thead>
 
-        {% for token in object_list %}
-        <tr class="w3-hover-purple">
-            <td>{{ token.name }}</td>
-            <td>{{ token.token }}</td>
-            <td>{{ token.note|slice:"15" }}</td>
-            <td>
-                <a href="{% url 'account:line-token-update' token.pk %}" class="w3-button w3-small w3-light-blue">Detail</a>
-            </td>
-        </tr>
-        {% endfor %}
+      <tbody>
+          {% for token in object_list %}
+          <tr class="w3-hover-purple">
+              <td>{{ token.name }}</td>
+              <td>{{ token.token }}</td>
+              <td>{{ token.note|slice:"15" }}</td>
+              <td>
+                  <a href="{% url 'account:line-token-update' token.pk %}" class="w3-button w3-small w3-light-blue">Detail</a>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
     </table>
 
     <!-- Paginator -->

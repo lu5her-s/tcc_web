@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 def get_image_name(instance, filename):
-    image_name = instance.announce.name
+    image_name = instance.name
     return "assets/{}/{}".format(image_name, filename)
 
 class AssetModel(models.Model):
@@ -27,7 +27,7 @@ class Supplier(models.Model):
     telephone = models.CharField(max_length=10, null=True, blank=True)
     
     def __str__(self):
-        return self.name + " [ " + self.telephone + " ]"
+        return self.name 
 
 class Location(models.Model):
     """ สถานที่ติดตั้ง หรือ ที่อยู่ปัจจุบัน เช่น คลัง หรือ มทบ """

@@ -26,7 +26,6 @@
 </div>
 
 <div class="w3-bar">
-  <form>
   <a href="{% url 'announce:create' %}" style="text-decoration: none;">
     <button class="w3-bar-item w3-button w3-right w3-green" style="margin-right: 50px;">
       <i class="fa fa-far fa-plus-square">
@@ -38,8 +37,9 @@
 <br>
 
 <!-- TODO : Make list -->
-<div class="w3-content">
-    <table class="w3-table" id="myTable">
+<div class="w3-content table-responsive">
+    <table class="w3-table table-bordered" id="dataTable" width="100%" cellspacing="0" cellpadding="0">
+      <thead>
         <tr>
             <th onclick="sortTable(1)" style="width: 10%;">Type</th>
             <th onclick="sortTable(2)" style="width: 30%">Name</th>
@@ -48,7 +48,9 @@
             <th onclick="sortTable(5)" style="width: 15%;">Status</th>
             <th onclick="sortTable(6)" style="width: 10%;">...</th>
         </tr>
+      </thead>
 
+      <tbody>
         {% for announce in object_list %}
         <tr class="w3-hover-purple">
             <td>{{ announce.is_type }}</td>
@@ -61,6 +63,7 @@
             </td>
         </tr>
         {% endfor %}
+      </tbody>
     </table>
 
     <!-- Paginator -->
@@ -88,7 +91,9 @@
 
 {% endblock content %}
 
+{% comment %} 
 {% block script %}
+
 <script type="text/javascript">
     function sortTable(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
@@ -145,4 +150,5 @@
         }
       }
       </script>
-{% endblock script %}
+{% endblock script %} 
+{% endcomment %}
