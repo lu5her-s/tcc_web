@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tz %}
+{% load tags %}
 
 {% block title %}TCC Home{% endblock title %}
 
@@ -15,7 +17,7 @@
       <div class="w3-container w3-red w3-padding-16">
         <!-- REVIEW : tag a before i -->
         <a href="{% url 'announce:not-read' %}" style="text-decoration:none;" class="w3-clear w3-black">
-          <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
+          <div class="w3-left"><i class="fa fa-bell w3-xxxlarge"></i></div>
           <div class="w3-right">
             <h3>{{ not_read }}</h3>
           </div>
@@ -33,7 +35,7 @@
             <h3>99</h3>
           </div>
           <div class="w3-clear"></div>
-          <h4>Views</h4>
+          <h4>งานที่รอรับมอบ</h4>
       </a>
       </div>
     </div>
@@ -45,7 +47,7 @@
           <h3>23</h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Shares</h4>
+        <h4>งานเอกสาร</h4>
       </div>
     </div>
 
@@ -56,7 +58,7 @@
           <h3>50</h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Users</h4>
+        <h4>การร้องขอ/สนับสนุน</h4>
       </div>
     </div>
   </div>
@@ -78,44 +80,44 @@
 
           <tr>
             <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
-            <td>New record, over 90 views.</td>
-            <td><i>10 mins</i></td>
+            <td>การมอบหมายงาน ทั้งหมด</td>
+            <td><i>10 งาน</i></td>
           </tr>
 
           <tr>
             <td><i class="fa fa-bell w3-text-red w3-large"></i></td>
-            <td>Database error.</td>
-            <td><i>15 mins</i></td>
+            <td>จำนวนประชาสัมพันธ์/สั่งการ</td>
+            <td><i>{{ announce.count }} เรื่อง</i></td>
           </tr>
 
           <tr>
             <td><i class="fa fa-users w3-text-yellow w3-large"></i></td>
-            <td>New record, over 40 users.</td>
-            <td><i>17 mins</i></td>
+            <td>การร้องขอ/สนับสนุน</td>
+            <td><i>17 เรื่อง</i></td>
           </tr>
 
           <tr>
             <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
-            <td>New comments.</td>
-            <td><i>25 mins</i></td>
+            <td>จำนวนความคิดเห็น</td>
+            <td><i>{{ comments.count }} ความคิดเห็น</i></td>
           </tr>
 
           <tr>
             <td><i class="fa fa-bookmark w3-text-blue w3-large"></i></td>
-            <td>Check transactions.</td>
-            <td><i>28 mins</i></td>
+            <td>บันทึกการทำงานทั้งหมด</td>
+            <td><i>28 งาน</i></td>
           </tr>
 
           <tr>
             <td><i class="fa fa-laptop w3-text-red w3-large"></i></td>
-            <td>CPU overload.</td>
-            <td><i>35 mins</i></td>
+            <td>สินทรัพย์ในความรับผิดชอบ</td>
+            <td><i>35 สินทรัพย์</i></td>
           </tr>
 
           <tr>
             <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
-            <td>New shares.</td>
-            <td><i>39 mins</i></td>
+            <td>เอกสาร</td>
+            <td><i>39 เรื่อง</i></td>
           </tr>
 
         </table>
@@ -126,113 +128,42 @@
   <hr>
 
   <div class="w3-container">
-    <h5>General Stats</h5>
-    <p>New Visitors</p>
+    <h5>บันทึกการทำงานทั้งหมด จำนวน 10 งาน</h5>
+    <p>ที่แล้วเสร็จ</p>
     <div class="w3-grey">
       <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
     </div>
 
-    <p>New Users</p>
+    <p>ที่กำลังดำเนินการ</p>
     <div class="w3-grey">
       <div class="w3-container w3-center w3-padding w3-orange" style="width:50%">50%</div>
     </div>
 
-    <p>Bounce Rate</p>
+    <p>ที่กำลังรอดำเนินการ</p>
     <div class="w3-grey">
       <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
     </div>
   </div>
 
-  <hr>
-
-  <div class="w3-container">
-    <h5>Countries</h5>
-    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
-      
-      <tr>
-        <td>United States</td>
-        <td>65%</td>
-      </tr>
-      
-      <tr>
-        <td>UK</td>
-        <td>15.7%</td>
-      </tr>
-      
-      <tr>
-        <td>Russia</td>
-        <td>5.6%</td>
-      </tr>
-      
-      <tr>
-        <td>Spain</td>
-        <td>2.1%</td>
-      </tr>
-      
-      <tr>
-        <td>India</td>
-        <td>1.9%</td>
-      </tr>
-      
-      <tr>
-        <td>France</td>
-        <td>1.5%</td>
-      </tr>
-    
-    </table><br>
-    
-    <button class="w3-button w3-dark-grey">More Countries  <i class="fa fa-arrow-right"></i></button>
-  
-  </div>
 
   <hr>
 
-  <div class="w3-container">
-    <h5>Recent Users</h5>
-    <ul class="w3-ul w3-card-4 w3-white">
-      
-      <li class="w3-padding-16">
-        <img src="/w3images/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
-        <span class="w3-xlarge">Mike</span><br>
-      </li>
-      
-      <li class="w3-padding-16">
-        <img src="/w3images/avatar5.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
-        <span class="w3-xlarge">Jill</span><br>
-      </li>
-      
-      <li class="w3-padding-16">
-        <img src="/w3images/avatar6.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
-        <span class="w3-xlarge">Jane</span><br>
-      </li>
-    
-    </ul>
-  </div>
-
-  <hr>
 
   <div class="w3-container">
-    <h5>Recent Comments</h5>
-    <div class="w3-row">
-      <div class="w3-col m2 text-center">
-        <img class="w3-circle" src="/w3images/avatar3.png" style="width:96px;height:96px">
+    <h5>ความคิดเห็นล่าสุด</h5>
+    {% for comment in recent_comment %}
+      <div class="w3-row">
+        <div class="w3-col m2 text-center">
+          <img class="w3-circle" src="{{ comment.author.profile.image.url }}" style="width:96px;height:96px">
+        </div>
+        <div class="w3-col m10 w3-container">
+          <h4>{{ comment.author }} <span class="w3-opacity w3-medium">- {{ comment.created_at|timezone:"Asia/Bangkok"|thaidate }} ({{ comment.created_at|timezone:"Asia/Bangkok"|timesince }})</span></h4>
+          <p>{{ comment.comment }} </p>
+          <br>
+        </div>
       </div>
-      <div class="w3-col m10 w3-container">
-        <h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
-        <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-      </div>
-    </div>
-
-    <div class="w3-row">
-      <div class="w3-col m2 text-center">
-        <img class="w3-circle" src="/w3images/avatar1.png" style="width:96px;height:96px">
-      </div>
-      <div class="w3-col m10 w3-container">
-        <h4>Bo <span class="w3-opacity w3-medium">Sep 28, 2014, 10:15 PM</span></h4>
-        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-      </div>
-    </div>
-  </div>
+      <br>
+    {% endfor %}
 
   <br>
 

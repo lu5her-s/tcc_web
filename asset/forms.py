@@ -52,7 +52,7 @@ class AssetForm(forms.ModelForm):
             "status" : widgets.Select(attrs={'class': 'w3-select'}),
             "warranty_month" : widgets.TextInput(attrs={'class': 'w3-input'}),
             "supplier" : widgets.Select(attrs={'class': 'w3-select'}),
-            "request_able" : widgets.CheckboxInput(attrs={'class': 'w3-input w3-check'}), 
+            "request_able" : widgets.CheckboxInput(attrs={'class': 'w3-check w3-input'}), 
             "location_at" : widgets.Select(attrs={'class': 'w3-select'}),
             "manufacturer" : widgets.Select(attrs={'class': 'w3-select'}),
             # "quantity" : widgets.NumberInput(attrs={'class': 'w3-input', 'hidden': True}), 

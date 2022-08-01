@@ -29,7 +29,7 @@ from account.forms import (
     ProfileForm
     )
 
-from announce.models import Announce
+from announce.models import Announce, Comment
 
 # Create your views here.
 
@@ -42,6 +42,9 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context['not_read'] = Announce.objects.filter(
             ~Q(author=self.request.user) & ~Q(reads__id=self.request.user.id)
         ).count()
+        context['announce'] = Announce.objects.filter(author=self.request.user)
+        context['comments'] = Comment.objects.filter(author=self.request.user)
+        context['recent_comment'] = Comment.objects.all().order_by('-created_at')[:2]
         return context
 
 class RegisterView(CreateView):

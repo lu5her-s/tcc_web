@@ -60,11 +60,12 @@
       <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
       <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  หน้าหลัก</a>
       <a href="{% url 'announce:list' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  ประชาสัมพันธ์/สั่งการ</a>
-      <a href="https://github.com/" target="_blank" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Views</a>
-      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Geo</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  งานที่ได้รับมอบหมาย</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  การออกปฏิบัติงาน</a>
       <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-car fa-fw"></i>  ยานพาหนะ</a>
       <a href="{% url 'asset:list' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  คลัง</a>
-      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bookmark fa-fw"></i>  บันทึกการทำงาน</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-share-alt fa-fw"></i>  เอกสาร</a>
       <a href="{% url 'account:members' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  รายชื่อกำลังพล</a>
       {% if user.is_superuser %}
         <a href="{% url 'account:line-token' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sticky-note"></i>  Line Token</a>
