@@ -35,6 +35,7 @@ def AnnounceRead(request, pk):
     return HttpResponseRedirect(reverse_lazy('announce:detail', args=[str(pk)]))
 
 class AnnounceListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model               = Announce
     template_name       = 'announce/announce.html'
     # context_object_name = 'announce_list'
@@ -56,6 +57,7 @@ def announce_read(request, pk):
     return HttpResponseRedirect(reverse_lazy('announce:detail', args=[str(pk)]))
 
 class AnnounceDetailView(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy('login')
     template_name       = 'announce/announce_detail.html'
     model               = Announce
     # context_object_name = 'announce'
@@ -92,6 +94,7 @@ class AnnounceDetailView(LoginRequiredMixin, DetailView):
         return HttpResponseRedirect(self.request.path_info)
 
 class AnnounceCreateView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     template_name = 'announce/announce_form.html'
     form_class = AnnounceForm
     success_url = reverse_lazy('announce:list')
@@ -156,6 +159,7 @@ class AnnounceCreateView(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, context)
 
 class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = 'announce/announce_form.html'
     model = Announce
     form_class = AnnounceForm
@@ -209,6 +213,7 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
         return redirect(self.success_url)
 
 class AnnounceNotReadView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Announce
     template_name = 'announce/announce.html'
     # context_object_name = 'announce_list'
@@ -227,6 +232,7 @@ class AnnounceNotReadView(LoginRequiredMixin, ListView):
         return context
 
 class AnnounceDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     template_name = 'announce/announce_delete.html'
     model = Announce
     success_url = reverse_lazy('announce:list')

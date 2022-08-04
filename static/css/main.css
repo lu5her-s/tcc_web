@@ -215,10 +215,12 @@ a{color:inherit}
     z-index:1
 }
 .w3-check,.w3-radio{
-    width:24px;
-    height:24px;
-    position:relative;
-    top:6px
+    width:20px;
+    height:20px;
+    position: relative;
+    top:6px;
+    bottom: 6px;
+    margin-bottom: 6px;
 }
 .w3-sidebar{
     height:100%;

@@ -56,11 +56,13 @@ class RegisterView(CreateView):
     template_name = 'registration/register.html'
 
 class ProfileView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login')
     model = User
     template_name = 'registration/profile.html'
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     ''' for update member'''
+    login_url = reverse_lazy('login')
     template_name = 'registration/profile_form.html'
     success_url = reverse_lazy('account:profile')
     
@@ -87,6 +89,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, context)
         
 class PasswordView(LoginRequiredMixin, PasswordChangeView):
+    login_url = reverse_lazy('login')
     form_class = PasswordChangeForm
     model = User
     template_name = 'registration/password_change.html'
@@ -100,6 +103,7 @@ class MemberListView(ListView):
 class MemberDetailView(LoginRequiredMixin, DetailView):
     template_name = 'registration/profile.html'
     model = User
+    login_url = reverse_lazy('login')
     
     def get(self, request, pk):
         user = User.objects.get(pk=pk)
@@ -109,11 +113,13 @@ class MemberDetailView(LoginRequiredMixin, DetailView):
         return render(request, self.template_name, context)
 
 class LineTokenListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     template_name = 'registration/line_token.html'
     model = LineToken
     paginate_by = 10
 
 class LineTokenCreateView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = LineToken
     template_name = 'registration/line_token_form.html'
     form_class = LineTokenForm
@@ -127,6 +133,7 @@ class LineTokenCreateView(LoginRequiredMixin, CreateView):
         return context
     
 class LineTokenUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = 'registration/line_token_form.html'
     model = LineToken
     form_class = LineTokenForm

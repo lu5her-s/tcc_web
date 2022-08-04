@@ -5,6 +5,8 @@ from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
+    UpdateView,
+    DeleteView,
 )
 from asset.forms import AssetForm
 
@@ -15,15 +17,18 @@ from asset.models import (
 # Create your views here.
 
 class AssetListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     template_name = 'asset/asset.html'
     model = Asset
     ordering = ('-created_at')
     
 class AssetDetailView(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy('login')
     template_name = 'asset/asset_detail.html'
     model = Asset
 
 class AssetCreateView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     template_name = 'asset/asset_form.html'
     form_class = AssetForm
     success_url = reverse_lazy('asset:list')
@@ -48,3 +53,42 @@ class AssetCreateView(LoginRequiredMixin, CreateView):
             'form' : form,
         }
         return render(request, self.template_name, context)
+
+class AssetUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
+    template_name = 'asset/asset_form.html'
+    form_class = AssetForm
+    model = Asset
+    # success_url = reverse_lazy('asset:detail', kwargs={'pk' : self.pk})
+
+    def get_success_url(self):
+        return reverse_lazy('asset:detail', kwargs={'pk' : self.get_object().pk })
+    
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(instance=self.get_object())
+        context = {
+            'form' : form,
+            'header' : 'แก้ไชสินทรัพย์',
+            'title' : 'Update',
+            'btn_text' : 'อัพเดท',
+        }
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES, instance=self.get_object())
+        if form.is_valid():
+            form.save()
+            return redirect(self.get_success_url())
+        else:
+            form = self.form_class(instance=self.get_object())
+            context = {
+                'form' : form,
+                'header' : 'แก้ไชสินทรัพย์',
+                'title' : 'Update',
+                'btn_text' : 'อัพเดท',
+            }
+        return render(request, self.template_name, context)
+        
+
+class AssetDeleteView(LoginRequiredMixin, DeleteView):
+    pass
