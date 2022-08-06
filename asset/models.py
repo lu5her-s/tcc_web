@@ -56,7 +56,7 @@ class Network(models.Model):
     def __str__(self):
         return self.name + " @ " + self.ip_addr
     
-class AssetType(models.Model):
+class Category(models.Model):
     """ ประเภทของทรัพย์สิน """
     name = models.CharField(max_length=200)
     
@@ -81,7 +81,7 @@ class Asset(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     on_network = models.ForeignKey(Network, on_delete=models.CASCADE, null=True, blank=True)
-    asset_type = models.ForeignKey(AssetType, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     
     def __str__(self):
-        return self.name + ' ' + self.serial_no + ' ' + '(' + self.quantity + ')'
+        return self.name + ' ' + self.serial_no + ' ' + '(' + str(self.quantity) + ')'

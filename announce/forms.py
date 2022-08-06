@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import widgets
+from ckeditor.widgets import CKEditorWidget
 
 from account.models import LineToken
 
@@ -25,7 +26,8 @@ class AnnounceForm(forms.ModelForm):
         widgets = {
             'is_type' : widgets.Select(attrs={'class': 'w3-select'}),
             'name' : widgets.TextInput(attrs={'class': 'w3-input'}),
-            'detail' : widgets.Textarea(attrs={'class': 'w3-input'}),
+            'detail' : widgets.Textarea(attrs={'class': 'form-control'}),
+            # 'detail' : CKEditorWidget(attrs={'class': 'w3-input'}),
             'status' : widgets.Select(attrs={'class': 'w3-select'}),
             'author' : widgets.HiddenInput(attrs={'class': 'w3-input', 'id': 'author'}),
         }

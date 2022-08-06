@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
@@ -29,7 +30,8 @@ class Announce(models.Model):
     status = models.ForeignKey(AnnounceStatus, on_delete=models.CASCADE, related_name='announce_status')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    detail = models.TextField()
+    detail = models.TextField(null=True, blank=True)
+    # detail = RichTextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_delete = models.BooleanField(default=False)

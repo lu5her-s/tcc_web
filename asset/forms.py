@@ -16,7 +16,7 @@ class AssetForm(forms.ModelForm):
 
     class Meta:
         model = Asset
-        fields = ("name", "asset_type", "model_no", 
+        fields = ("name", "category", "model_no", 
                   "serial_no", "status", "manufacturer",
                   "supplier", "request_able", "purchase_date", 
                   "location_at", "assigned_to", 
@@ -37,7 +37,7 @@ class AssetForm(forms.ModelForm):
             "manufacturer" : "ผู้ผลิต/ยี่ห้อ",
             # "quantity" : "จำนวน", 
             "on_network" : "เครือข่าย", 
-            "asset_type" : "ประเภท",
+            "category" : "ประเภท",
         }
         
         widgets = {
@@ -57,5 +57,5 @@ class AssetForm(forms.ModelForm):
             "manufacturer" : widgets.Select(attrs={'class': 'w3-select'}),
             # "quantity" : widgets.NumberInput(attrs={'class': 'w3-input', 'hidden': True}), 
             "on_network" : widgets.Select(attrs={'class': 'w3-select'}), 
-            "asset_type" : widgets.Select(attrs={'class': 'w3-select'}),
+            "category" : widgets.Select(attrs={'class': 'w3-select'}),
         }

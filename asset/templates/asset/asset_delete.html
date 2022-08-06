@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Asset - {{ title }}{% endblock title %}
+{% block content %}
+<style>
+    form {border: 3px solid #f1f1f1;}
+
+    {% comment %} input {
+        padding:8px;
+        display:block;
+        border:none;
+        border-bottom:1px solid #ccc;
+        width:100%
+    } {% endcomment %}
+
+    .imagecontainer {
+        text-align: center;
+        margin : 12px 0 6px 0;
+    }
+
+    img.avatar {
+        width: 25%;
+        border-radius: 50%;
+      }
+
+    button {
+        padding:14px 20px;
+        margin: 8px 0;
+        border-radius: 12px;
+        width: 100%;
+    }
+</style>
+<br>
+<div class="w3-container">
+    <h3>{{ header }}</h3>
+</div>
+
+<br>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="w3-container">
+
+        <table class="w3-table">
+            <tr>
+                <td style="width: 25%;">ประเภท</td>
+                <td>{{ object.category }}</td>
+    
+                <td style="width: 10%;">Model part</td>
+                <td>{{ object.model_no }}</td>
+            </tr>
+    
+            <tr>
+                <td style="width: 25%;">ชื่อ</td>
+                <td>{{ object.name }}</td>
+                
+                <td style="width: 10%;">serial no :</td>
+                <td>{{ object.serial_no }}</td>
+            </tr>
+    
+            <tr>
+                <td style="width: 25%;">สถานะ</td>
+                <td>{{ object.status }}</td>
+    
+                <td style="width: 10%;">สถานที่</td>
+                <td>{{ object.location_at.name }}</td>
+            </tr>
+    
+            <tr>
+                <td style="width: 25%;">ผู้ผลิต/ยี่ห้อ</td>
+                <td>{{ object.manufacturer }}</td>
+    
+                <td style="width: 10%;">ผู้จำหน่าย</td>
+                <td>{{ object.supplier }}</td>
+            </tr>
+    
+        </table>
+        <br>
+        
+        <button type="submit" class="w3-button w3-red w3-large">{{ btn_text }}</button>
+    </div>  
+
+    <div class="w3-bar">
+        <button class="w3-bar-item w3-button w3-large w3-right">
+            <a href="{% url 'asset:list' %}" style="text-decoration: none;">Cancle</a>
+        </button>
+    </div>
+</form>
+
+<br><br><br>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    var name = "{{ user.id }}"
+    document.getElementById("author").value = name;
+
+    var chk = document.getElementById("check")
+
+</script>
+{% endblock script %}

@@ -1,6 +1,8 @@
-from django.shortcuts import redirect, render
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
+from django.core import serializers
 from django.views.generic import (
     ListView,
     DetailView,
@@ -91,4 +93,16 @@ class AssetUpdateView(LoginRequiredMixin, UpdateView):
         
 
 class AssetDeleteView(LoginRequiredMixin, DeleteView):
-    pass
+    model = Asset
+    template_name = 'asset/asset_delete.html'
+    success_url = reverse_lazy('asset:list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Delete'
+        context["header"] = "ลบสินทรัพย์"
+        context["btn_text"] = "ยืนยันการลบ"
+        return context
+    
+
+
