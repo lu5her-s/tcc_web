@@ -18,9 +18,9 @@ class AssetForm(forms.ModelForm):
         model = Asset
         fields = ("name", "category", "model_no", 
                   "serial_no", "status", "manufacturer",
-                  "supplier", "request_able", "purchase_date", 
-                  "location_at", "assigned_to", 
-                  "on_network", "note", "image",)
+                  "supplier", "purchase_date", "location_at", 
+                  "assigned_to", "on_network", "note", 
+                  "image")
         labels = {
             "name" : "ชื่อ", 
             "model_no" : "โมเดล", 
@@ -41,21 +41,21 @@ class AssetForm(forms.ModelForm):
         }
         
         widgets = {
-            "name" : widgets.TextInput(attrs={'class': 'w3-input',}), 
-            "model_no" : widgets.Select(attrs={'class': 'w3-select',}),
-            "serial_no" : widgets.TextInput(attrs={'class': 'w3-input', 'placeholder' : 'serial no.'}),
-            "purchase_date" : DateInput(attrs={'class': 'w3-input',}),
-            "assigned_to" : widgets.Select(attrs={'class': 'w3-select'}),
+            "name" : widgets.TextInput(attrs={'class': 'form-control',}), 
+            "model_no" : widgets.Select(attrs={'class': 'form-control',}),
+            "serial_no" : widgets.TextInput(attrs={'class': 'form-control', 'placeholder' : 'serial no.'}),
+            "purchase_date" : DateInput(attrs={'class': 'form-control',}),
+            "assigned_to" : widgets.Select(attrs={'class': 'form-control'}),
             # "assigned_to" : SelectAssignedAsset(attrs={'class': 'w3-select'}),
-            "note" : widgets.Textarea(attrs={'class': 'w3-input'}),
-            "image" : widgets.FileInput(attrs={'class': 'w3-input'}),
-            "status" : widgets.Select(attrs={'class': 'w3-select'}),
-            "warranty_month" : widgets.TextInput(attrs={'class': 'w3-input'}),
-            "supplier" : widgets.Select(attrs={'class': 'w3-select'}),
-            "request_able" : widgets.CheckboxInput(attrs={'class': 'w3-input w3-check', 'id': 'check'}), 
-            "location_at" : widgets.Select(attrs={'class': 'w3-select'}),
-            "manufacturer" : widgets.Select(attrs={'class': 'w3-select'}),
+            "note" : widgets.Textarea(attrs={'class': 'form-control'}),
+            "image" : widgets.FileInput(attrs={'class': 'form-control'}),
+            "status" : widgets.Select(attrs={'class': 'form-control'}),
+            "warranty_month" : widgets.TextInput(attrs={'class': 'from-control'}),
+            "supplier" : widgets.Select(attrs={'class': 'form-control.'}),
+            "request_able" : widgets.CheckboxInput(attrs={'class': 'form-control', 'id': 'check'}), 
+            "location_at" : widgets.Select(attrs={'class': 'form-control'}),
+            "manufacturer" : widgets.Select(attrs={'class': 'form-control'}),
             # "quantity" : widgets.NumberInput(attrs={'class': 'w3-input', 'hidden': True}), 
-            "on_network" : widgets.Select(attrs={'class': 'w3-select'}), 
-            "category" : widgets.Select(attrs={'class': 'w3-select'}),
+            "on_network" : widgets.Select(attrs={'class': 'form-control'}), 
+            "category" : widgets.Select(attrs={'class': 'form-control'}),
         }

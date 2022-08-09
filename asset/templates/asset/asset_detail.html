@@ -49,7 +49,11 @@
     <table class="w3-table">
         <tr>
             <td style="width: 25%;">ประเภท</td>
-            <td>{{ object.asset_type }}</td>
+            <td>
+                <a href="{% url 'asset:category' pk=object.category.pk %}">
+                    {{ object.category }}
+                </a>
+            </td>
 
             <td style="width: 10%;">Model part</td>
             <td>{{ object.model_no }}</td>
@@ -68,15 +72,36 @@
             <td>{{ object.status }}</td>
 
             <td style="width: 10%;">สถานที่</td>
-            <td>{{ object.location_at.name }}</td>
+            <td>
+                {% if object.location_at %}
+                    <a href="{% url 'asset:location' pk=object.location_at.pk %}">
+                        {{ object.location_at.name }}
+                    </a>
+                {% endif %}
+            </td>
         </tr>
 
         <tr>
             <td style="width: 25%;">ผู้ผลิต/ยี่ห้อ</td>
-            <td>{{ object.manufacturer }}</td>
+            <td>
+                {% if object.manufacturer %}
+                    <a href="{% url 'asset:manufacturer' pk=object.manufacturer.pk %}">
+                        {{ object.manufacturer.name }}
+                    </a>
+                {% endif %}
+                
+            </td>
 
             <td style="width: 10%;">ผู้จำหน่าย</td>
             <td>{{ object.supplier }}</td>
+        </tr>
+
+        <tr>
+            <td style="width: 25%;">เครือข่าย</td>
+            <td>{{ object.on_network.name }}</td>
+            
+            <td style="width: 10%;">IP :</td>
+            <td>{{ object.on_network.ip_addr }}</td>
         </tr>
 
     </table>

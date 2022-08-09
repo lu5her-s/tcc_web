@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}Asset - {{ title }}{% endblock title %}
 {% block content %}
@@ -42,7 +43,7 @@
     <div class="w3-container">
 
         {{ form.media }}
-        {{ form }}
+        {{ form|crispy }}
         <br>
         
         <button type="submit" class="w3-button w3-green w3-large">{{ btn_text }}</button>

@@ -14,6 +14,9 @@ from asset.forms import AssetForm
 
 from asset.models import (
     Asset,
+    Category,
+    Location,
+    Manufacturer,
 )
 
 # Create your views here.
@@ -104,5 +107,32 @@ class AssetDeleteView(LoginRequiredMixin, DeleteView):
         context["btn_text"] = "ยืนยันการลบ"
         return context
     
+def CategoryListView(request, pk):
+    object_list = Asset.objects.filter(category__id__exact=pk)
+    description = Category.objects.get(pk=pk)
+    context = {
+        'object_list': object_list,
+        'description': description,
+        'btn': "Back",
+    }
+    return render(request, 'asset/asset.html', context)
+    
+def LocationListView(request, pk):
+    object_list = Asset.objects.filter(location_at__id__exact=pk)
+    description = Location.objects.get(pk=pk)
+    context = {
+        'object_list': object_list,
+        'description': description,
+        'btn': "Back",
+    }
+    return render(request, 'asset/asset.html', context)
 
-
+def ManufacturerListView(request, pk):
+    object_list = Asset.objects.filter(manufacturer__id__exact=pk)
+    description =Manufacturer.objects.get(pk=pk)
+    context = {
+        'object_list': object_list,
+        'description': description,
+        'btn': "Back",
+    }
+    return render(request, 'asset/asset.html', context)

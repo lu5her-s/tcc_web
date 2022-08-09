@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 
@@ -38,7 +39,7 @@ class Location(models.Model):
     a_tel = models.CharField(max_length=10, null=True, blank=True)
     
     def __str__(self):
-        return self.name + ' ' + str(self.city)
+        return self.name
 
 class Manufacturer(models.Model):
     """ บริษัทที่ผลิต """
@@ -76,7 +77,7 @@ class Asset(models.Model):
     status = models.ForeignKey(AssetStatus, on_delete=models.CASCADE)
     warranty_month = models.CharField(max_length=10)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, null=True, blank=True)
-    request_able = models.BooleanField(default=False)
+    request_able = models.BooleanField(default=True)
     location_at = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
@@ -85,3 +86,7 @@ class Asset(models.Model):
     
     def __str__(self):
         return self.name + ' ' + self.serial_no + ' ' + '(' + str(self.quantity) + ')'
+    
+    def get_absolute_url(self):
+        return reverse("asset:detail", kwargs={"pk": self.pk})
+    

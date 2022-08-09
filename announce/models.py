@@ -6,11 +6,11 @@ from ckeditor.fields import RichTextField
 
 def get_image_name(instance, filename):
     image_name = instance.announce.name
-    return "images/{}/{}".format(image_name, filename)
+    return "AnnounceImages/{}/{}".format(image_name, filename)
 
 def get_file_name(instance, filename):
     file_name = instance.announce.name
-    return "files/{}/{}".format(file_name, filename)
+    return "AnnounceFiles/{}/{}".format(file_name, filename)
 
 class AnnounceType(models.Model):
     name = models.CharField(max_length=200)
@@ -30,15 +30,15 @@ class Announce(models.Model):
     status = models.ForeignKey(AnnounceStatus, on_delete=models.CASCADE, related_name='announce_status')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    detail = models.TextField(null=True, blank=True)
-    # detail = RichTextField(null=True, blank=True)
+    # detail = models.TextField(null=True, blank=True)
+    detail = RichTextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_delete = models.BooleanField(default=False)
     reads = models.ManyToManyField(User, related_name='readers')
     
     def __str__(self):
-        return '(' + self.is_type + ')' + self.name + '(' + self.author.username + ')' + self.created_at.strftime('%a, %d %b %Y %H:%M:%S') + '--' + str(self.number_of_reader()) + ' reader'
+        return '(' + self.is_type.name + ')' + self.name + '(' + self.author.username + ')' + self.created_at.strftime('%a, %d %b %Y %H:%M:%S') + '--' + str(self.number_of_reader()) + ' reader'
 
     def number_of_reader(self):
         return self.reads.count()

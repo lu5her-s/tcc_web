@@ -14,7 +14,7 @@ from announce.models import (
 # admin.site.register(Announce)
 @admin.register(Announce)
 class AnnounceAdmin(admin.ModelAdmin):
-    list_display = ('is_type', 'status', 'author', 'name', 'detail', 'created_at', 'updated_at', 'is_delete',)
+    list_display = ('is_type', 'status', 'author', 'name', 'created_at', 'updated_at', 'is_delete',)
     list_filter = ('is_type', 'status', 'author', 'name', 'detail', 'created_at', 'updated_at', 'is_delete',)
     search_fields = ('is_type', 'status', 'author', 'name', 'detail', 'created_at', 'updated_at', 'is_delete',)
     

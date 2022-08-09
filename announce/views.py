@@ -195,14 +195,14 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
             
             if images:
                 for image in images:
-                    a_image = AnnounceImage.objects.create(announce=form_id, image=image)
+                    a_image = AnnounceImage.objects.create(announce=form_id, images=image)
                     a_image.save()
             else:
                 form_save.save()
                 
             if files:
                 for f in files:
-                    a_file = AnnounceFile.objects.create(announce=form_id, file=f)
+                    a_file = AnnounceFile.objects.create(announce=form_id, files=f)
                     a_file.save()
             else:
                 form_save.save()

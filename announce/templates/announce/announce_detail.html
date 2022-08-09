@@ -79,7 +79,7 @@
             </tr>
             <tr>
                 <td>
-                    {{ object.detail|linebreaks }}
+                    {{ object.detail|safe|linebreaks }}
                 </td>
             </tr>
 
@@ -97,15 +97,18 @@
         </table>
 
 
-        {% if images %}
-            {% for item in images %}
-                <a class="col s12 m3" href="{{ item.images.url }}" target="_blank">
-                    <img height="150" width="150" src="{{ item.images.url }}" alt="">
-                </a>
-            
-            {% endfor %}
-        {% endif %}
-        
+        <div id="gallery">
+            {% if images %}
+                {% for item in images %}
+                    {% comment %} <a class="col s12 m3" href="{{ item.images.url }}" target="_blank">
+                        <img height="150" width="150" src="{{ item.images.url }}" alt="">
+                    </a> {% endcomment %}
+                    <a class="col s12 m3" href="javascript:pswpInit({{forloop.counter0}})">
+                        <img height="150" width="150" src="{{ item.images.url }}" alt="">
+                    </a>
+                {% endfor %}
+            {% endif %}
+        </div>
                 
         <br>
         <!-- Read Announce -->
@@ -211,10 +214,11 @@
     
 </div>
 
+{% include 'components/photoswipe.html' %}
+
 {% endblock content %}
 
 {% block script %}
-
-
+ 
 {% endblock script %}
 

@@ -55,7 +55,7 @@ class UserForm(forms.ModelForm):
             'email': 'Email'
         }
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'input w3-input'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'input w3-input'}),
             'email' : forms.EmailInput(attrs={'class': 'input w3-input'})
         }
@@ -77,12 +77,12 @@ class ProfileForm(forms.ModelForm):
 			'image'   : 'รูปประจำตัว',
 		}
 		widgets = {
-			'rank'    : widgets.Select(attrs={'class': 'w3-select'}),
-			'position': forms.Select(attrs={'class': 'select w3-select'}),
-			'sector': forms.Select(attrs={'class': 'select w3-select'}),
-			'place': forms.TextInput(attrs={'class': 'input', 'placeholder': 'เช่น สทค.มทบ...'}),
-			'phone': forms.TextInput(attrs={'class': 'input w3-input'}),
-            # 'image' : forms.ClearableFileInput(attrs={'class': 'input w3-input'}),
+			'rank'    : widgets.Select(attrs={'class': 'form-control'}),
+			'position': forms.Select(attrs={'class': 'form-control'}),
+			'sector': forms.Select(attrs={'class': 'form-control'}),
+			'place': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'เช่น สทค.มทบ...'}),
+			'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'image' : forms.ClearableFileInput(attrs={'class': 'form-control'}),
 		}
 
 

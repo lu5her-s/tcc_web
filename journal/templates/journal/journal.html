@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% load tags %}
+
+{% block title %}Journal List{% endblock title %}
+
+{% block content %}
+<style type="text/css">
+    table {
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+    }
+    th {
+        cursor: pointer;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+<br>
+<div class="w3-container w3-center">
+    <h2>บันทึกการปฏิบัติงาน</h2>
+    <h3>{{ description.name }}</h3>
+</div>
+
+<div class="w3-container">
+  <div class="w3-content">
+    <a href="{% url 'journal:create' %}" class="w3-bar-item w3-button w3-right w3-green">
+      <i class="fa fa-plus"></i>
+      Add
+    </a>
+
+    {% if btn %}
+      <a href="{% url 'asset:list' %}" class="w3-bar-item w3-button w3-left w3-light-blue">
+        {{ btn }}
+      </a>
+    {% endif %}
+    
+
+  </div>
+</div>
+
+<br>
+
+<!-- DONE : Make list -->
+<div class="w3-content table-responsive">
+    <table class="w3-table table-bordered" id="dataTable" width="100%" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+            <th onclick="sortTable(1)" style="width: 15%;">Type</th>
+            <th onclick="sortTable(2)" style="width: 15%">Title</th>
+            <th onclick="sortTable(3)" style="width: 25%;">Body</th>
+            <th onclick="sortTable(3)" style="width: 15%;">Status</th>
+            <th onclick="sortTable(4)" style="width: 15%;">Created At</th>
+            <th onclick="sortTable(6)" style="width: 15%;">...</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for object in object_list %}
+        <tr class="w3-hover-purple">
+            <td>
+              <a href="#">
+              {{ object.category }}
+              </a>
+            </td>
+            <td>{{ object.title }}</td>
+            <td>{{ object.body|safe|slice:":25" }}</td>
+            <td>
+                <a href="#">
+                  {{ object.status.name }}
+                </a>
+            </td>
+            {% comment %} <td>{{ object.created_at|timezone:"Asia/Bangkok"|thaidate }}</td> {% endcomment %}
+            <td>
+                  {{ object.created_at|thaidate }}
+            </td>
+            <td>
+                <a href="{{ object.get_absolute_url }}" class="w3-bar-item w3-button w3-light-blue">Detail</a>
+                <a href="{% url 'asset:update' pk=object.pk %}" class="w3-bar-item w3-button w3-orange"><i class="fa fa-cog"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% comment %} <!-- Paginator -->
+    <br>
+    <div class="w3-content w3-right">
+      <div class="pagination">
+        <span class="w3-bar">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="w3-bar-item w3-button w3-light-grey">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="w3-bar-item w3-button">&laquo; previous</a>
+            {% endif %}
+    
+            <span class="w3-bar-item">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="w3-bar-item w3-button">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="w3-bar-item w3-button">last &raquo;</a>
+            {% endif %}
+        </span>
+      </div>
+      <!-- Paginator --> {% endcomment %}
+</div>
+
+{% endblock content %}
+
+{% comment %} 
+{% block script %}
+
+<script type="text/javascript">
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        //Set the sorting direction to ascending:
+        dir = "asc"; 
+        /*Make a loop that will continue until
+        no switching has been done:*/
+        while (switching) {
+          //start by saying: no switching is done:
+          switching = false;
+          rows = table.rows;
+          /*Loop through all table rows (except the
+          first, which contains table headers):*/
+          for (i = 1; i < (rows.length - 1); i++) {
+            //start by saying there should be no switching:
+            shouldSwitch = false;
+            /*Get the two elements you want to compare,
+            one from current row and one from the next:*/
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            /*check if the two rows should switch place,
+            based on the direction, asc or desc:*/
+            if (dir == "asc") {
+              if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                //if so, mark as a switch and break the loop:
+                shouldSwitch= true;
+                break;
+              }
+            } else if (dir == "desc") {
+              if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                //if so, mark as a switch and break the loop:
+                shouldSwitch = true;
+                break;
+              }
+            }
+          }
+          if (shouldSwitch) {
+            /*If a switch has been marked, make the switch
+            and mark that a switch has been done:*/
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            //Each time a switch is done, increase this count by 1:
+            switchcount ++;      
+          } else {
+            /*If no switching has been done AND the direction is "asc",
+            set the direction to "desc" and run the while loop again.*/
+            if (switchcount == 0 && dir == "asc") {
+              dir = "desc";
+              switching = true;
+            }
+          }
+        }
+      }
+      </script>
+{% endblock script %} 
+{% endcomment %}

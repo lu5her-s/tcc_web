@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% load tags %}
+
+{% block title %}{{ object.name }} {{ name }} {% endblock title %}
+
+{% block content %}
+
+{% comment %} <link rel="stylesheet" href="{% static 'external/photoswipe/photoswipe.css' %}"> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="{% static 'external/photoswipe/default-skin/default-skin.css' %}"> {% endcomment %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+{% comment %} <script src="{% static 'external/photoswipe/photoswipe.min.js' %}"></script> {% endcomment %}
+{% comment %} <script src="{% static 'external/photoswipe/photoswipe-ui-default.min.js' %}"></script> {% endcomment %}
+{% comment %} <script src="{% static 'js/app.js' %}"</script> {% endcomment %}
+
+<style>
+    form {border: 3px solid #f1f1f1;}
+
+    input {
+        padding:8px;
+        display:block;
+        border:none;
+        border-bottom:1px solid #ccc;
+        width:100%
+    }
+
+    .imagecontainer {
+        text-align: center;
+        margin : 12px 0 6px 0;
+    }
+
+    img.avatar {
+        width: 25%;
+        border-radius: 50%;
+      }
+
+    button {
+        padding:14px 20px;
+        margin: 8px 0;
+        border-radius: 12px;
+        width: 100%;
+    }
+</style>
+<br>
+<div class="w3-container">
+    <h3 class="w3-center">{{ object.title }}</h3>
+    <table class="w3-table">
+        <tr>
+            <td style="width: 25%;">ประเภท</td>
+            <td >
+                <a href="#">
+                    {{ object.category }}
+                </a>
+            </td>
+
+            <td style="width: 20%;">Author</td>
+            <td>{{ object.author.profile.rank }}{{ object.author.get_full_name }}</td>
+        </tr>
+
+        <tr>
+            <td style="width: 20%;">สถานะ</td>
+            <td>
+                <a href="#">
+                    {{ object.status.name }}
+                </a>
+            </td>
+            
+            <td style="width: 20%;">ผู้ควบคุม/สั่งการ</td>
+            <td>{{ object.header }}</td>
+        </tr>
+
+        <tr>
+            <td style="width: 25%;">วันที่ปฏิบัติงาน</td>
+            <td>{{ object.created_at|thaidate }}</td>
+
+            <td style="width: 10%;">อัพเดท</td>
+            <td>
+                {{ object.updated_at|thaidate }}
+            </td>
+        </tr>
+
+       
+    </table>
+    <hr>
+    <br>
+    
+        <table class="w3-table">
+            <tr>
+                <td><h3>รายละเอียด</h3></td>
+            </tr>
+            <tr>
+                <td>
+                    {{ object.body|safe|linebreaks }}
+                </td>
+            </tr>
+
+        </table>
+
+        <hr>
+        {% if images %}
+                {% for item in images %}
+                    {% comment %} <a class="col s12 m3" href="{{ item.images.url }}" target="_blank">
+                        <img height="150" width="150" src="{{ item.images.url }}" alt="">
+                    </a> {% endcomment %}
+                    <a class="col s12 m3" href="javascript:pswpInit({{forloop.counter0}})">
+                        <img height="150" width="150" src="{{ item.images.url }}" alt="">
+                    </a>
+                {% endfor %}
+                <hr>
+            {% endif %}
+        
+                
+        <br>
+
+    {% if object.author.pk == request.user.pk %}
+    <div class="w3-container w3-center">
+        <a href="{% url 'asset:update' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-light-blue">Update</a>
+        <a href="{% url 'journal:list' %}" class="w3-bar-item w3-button w3-center w3-large w3-lime">Cancle</a>
+        <a href="{% url 'asset:delete' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-red">Delete</a>
+    </div>
+    {% else %}
+    <div class="w3-container w3-center">
+        <a href="{% url 'asset:list' %}" class="w3-bar-item w3-button w3-center w3-blue">List</a>
+        <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-center w3-gray">Home</a>
+    </div>
+    {% endif %}
+
+    
+</div>
+
+{% include "components/photoswipe.html" %}
+
+{% endblock content %}
+
+{% block script %}
+
+
+{% endblock script %}
+

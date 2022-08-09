@@ -23,6 +23,7 @@
 <br>
 <div class="w3-container w3-center">
     <h2>รายการทรัพย์สิน</h2>
+    <h3>{{ description.name }}</h3>
 </div>
 
 <div class="w3-container">
@@ -32,20 +33,28 @@
       Add
     </a>
 
+    {% if btn %}
+      <a href="{% url 'asset:list' %}" class="w3-bar-item w3-button w3-left w3-light-blue">
+        {{ btn }}
+      </a>
+    {% endif %}
+    
+
   </div>
 </div>
 
 <br>
 
-<!-- TODO : Make list -->
+<!-- DONE : Make list -->
 <div class="w3-content table-responsive">
     <table class="w3-table table-bordered" id="dataTable" width="100%" cellspacing="0" cellpadding="0">
       <thead>
         <tr>
             <th onclick="sortTable(1)" style="width: 15%;">Type</th>
             <th onclick="sortTable(2)" style="width: 15%">Name</th>
-            <th onclick="sortTable(3)" style="width: 25%;">Serial no.</th>
-            <th onclick="sortTable(4)" style="width: 20%;">Location</th>
+            <th onclick="sortTable(3)" style="width: 15%;">Serial no.</th>
+            <th onclick="sortTable(3)" style="width: 15%;">Manufacturer</th>
+            <th onclick="sortTable(4)" style="width: 15%;">Location</th>
             <th onclick="sortTable(5)" style="width: 10%;">Status</th>
             <th onclick="sortTable(6)" style="width: 15%;">...</th>
         </tr>
@@ -54,14 +63,32 @@
       <tbody>
         {% for object in object_list %}
         <tr class="w3-hover-purple">
-            <td>{{ object.category }}</td>
+            <td>
+              <a href="{% url 'asset:category' pk=object.category.pk %}">
+              {{ object.category }}
+              </a>
+            </td>
             <td>{{ object.name }}</td>
             <td>{{ object.serial_no }}</td>
+            <td>
+              {% if object.manufacturer %}
+                <a href="{% url 'asset:manufacturer' pk=object.manufacturer.pk %}">
+                  {{ object.manufacturer.name }}
+                </a>
+              {% endif %}
+            </td>
             {% comment %} <td>{{ object.created_at|timezone:"Asia/Bangkok"|thaidate }}</td> {% endcomment %}
-            <td>{{ object.location_at.name }}</td>
+            <td>
+              {% if object.location_at %}
+                <a href="{% url 'asset:location' pk=object.location_at.pk %}">
+                  {{ object.location_at.name }}
+                </a>
+              {% endif %}
+              
+            </td>
             <td>{{ object.status }}</td>
             <td>
-                <a href="{% url 'asset:detail' pk=object.pk %}" class="w3-bar-item w3-button w3-light-blue">Detail</a>
+                <a href="{{ object.get_absolute_url }}" class="w3-bar-item w3-button w3-light-blue">Detail</a>
                 <a href="{% url 'asset:update' pk=object.pk %}" class="w3-bar-item w3-button w3-orange"><i class="fa fa-cog"></i></a>
             </td>
         </tr>

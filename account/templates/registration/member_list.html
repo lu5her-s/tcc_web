@@ -19,6 +19,8 @@
     }
 </style>
 
+<br>
+
 <div class="w3-container w3-center">
     <h2>รายชื่อกำลังพล</h2>
 </div>
@@ -59,7 +61,7 @@
 
 {% endblock content %}
 
-{% block script %}
+{% comment %} {% block script %}
 <script type="text/javascript">
     function sortTable(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
@@ -116,4 +118,4 @@
         }
       }
       </script>
-{% endblock script %}
+{% endblock script %} {% endcomment %}
