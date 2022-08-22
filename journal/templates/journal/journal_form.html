@@ -45,6 +45,13 @@
         {{ form.media }}
         {{ form|crispy }}
         <br>
+        {% if images %}
+            <p class="w3-text w3-disabled">ภาพปัจจุบัน</p>
+            {% for image in images %}
+            <img src="{{ image.images.url }}" class="w3-image" width="200" height="100">
+            {% endfor %}
+            <br>
+        {% endif %}
         
         <button type="submit" class="w3-button w3-green w3-large">{{ btn_text }}</button>
     </div>  

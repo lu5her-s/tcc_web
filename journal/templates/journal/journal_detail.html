@@ -116,9 +116,9 @@
 
     {% if object.author.pk == request.user.pk %}
     <div class="w3-container w3-center">
-        <a href="{% url 'asset:update' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-light-blue">Update</a>
-        <a href="{% url 'journal:list' %}" class="w3-bar-item w3-button w3-center w3-large w3-lime">Cancle</a>
-        <a href="{% url 'asset:delete' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-red">Delete</a>
+        <a href="{% url 'journal:list' %}" class="w3-bar-item w3-button w3-center w3-large w3-gray">Cancle</a>
+        <a href="{% url 'journal:delete' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-red">Delete</a>
+        <a href="{% url 'journal:update' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-green">Update</a>
     </div>
     {% else %}
     <div class="w3-container w3-center">

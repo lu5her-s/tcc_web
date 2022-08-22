@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags %}
+
+{% block title %}Journal - {{ title }}{% endblock title %}
+{% block content %}
+<style>
+    form {border: 3px solid #f1f1f1;}
+
+    {% comment %} input {
+        padding:8px;
+        display:block;
+        border:none;
+        border-bottom:1px solid #ccc;
+        width:100%
+    } {% endcomment %}
+
+    .imagecontainer {
+        text-align: center;
+        margin : 12px 0 6px 0;
+    }
+
+    img.avatar {
+        width: 25%;
+        border-radius: 50%;
+      }
+
+    button {
+        padding:14px 20px;
+        margin: 8px 0;
+        border-radius: 12px;
+        width: 100%;
+    }
+</style>
+<br>
+<div class="w3-container">
+    <h3>{{ header }}</h3>
+</div>
+
+<br>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="w3-container">
+
+        <table class="w3-table">
+            <tr>
+                <td style="width: 25%;">ประเภท</td>
+                <td >
+                    <a href="#">
+                        {{ object.category }}
+                    </a>
+                </td>
+    
+                <td style="width: 20%;">Author</td>
+                <td>{{ object.author.profile.rank }}{{ object.author.get_full_name }}</td>
+            </tr>
+    
+            <tr>
+                <td style="width: 20%;">สถานะ</td>
+                <td>
+                    <a href="#">
+                        {{ object.status.name }}
+                    </a>
+                </td>
+                
+                <td style="width: 20%;">ผู้ควบคุม/สั่งการ</td>
+                <td>{{ object.header }}</td>
+            </tr>
+    
+            <tr>
+                <td style="width: 25%;">วันที่ปฏิบัติงาน</td>
+                <td>{{ object.created_at|thaidate }}</td>
+    
+                <td style="width: 10%;">อัพเดท</td>
+                <td>
+                    {{ object.updated_at|thaidate }}
+                </td>
+            </tr>
+    
+        </table>
+        <br>
+        
+        <button type="submit" class="w3-button w3-red w3-large">{{ btn_text }}</button>
+    </div>  
+
+    
+</form>
+<div class="w3-bar">
+        <button class="w3-bar-item w3-button w3-large w3-right">
+            <a href="{% url 'journal:list' %}" style="text-decoration: none;">Cancle</a>
+        </button>
+    </div>
+<br><br><br>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    var name = "{{ user.id }}"
+    document.getElementById("author").value = name;
+
+    var chk = document.getElementById("check")
+
+</script>
+{% endblock script %}

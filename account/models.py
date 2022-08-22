@@ -32,18 +32,21 @@ class Position(models.Model):
 # NOTE : class for create new profile
 class Profile(models.Model):
     ''' create user profile '''
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rank = models.ForeignKey(Rank, on_delete=models.CASCADE, blank=True, null=True)
+    user     = models.OneToOneField(User, on_delete=models.CASCADE)
+    rank     = models.ForeignKey(Rank, on_delete=models.CASCADE, blank=True, null=True)
     position = models.ForeignKey(Position, on_delete=models.CASCADE, blank=True, null=True)
-    sector = models.ForeignKey(Sector, on_delete=models.CASCADE, blank=True, null=True)
-    place = models.CharField(max_length=200, blank=True, null=True)
-    phone = models.CharField(max_length=10, blank=True, null=True)
-    image = models.ImageField(upload_to='Profile/', blank=True, null=True)
+    sector   = models.ForeignKey(Sector, on_delete=models.CASCADE, blank=True, null=True)
+    place    = models.CharField(max_length=200, blank=True, null=True)
+    phone    = models.CharField(max_length=10, blank=True, null=True)
+    image    = models.ImageField(upload_to='Profile/', blank=True, null=True)
     
     # REVIEW : make return refer
     def __str__(self) -> str:
-        return self.user.get_full_name() 
-    
+        if self.rank:
+            return self.rank.name + self.user.get_full_name() 
+        else:
+            return self.user.username
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
@@ -56,9 +59,9 @@ def save_user_profile(sender, instance, **kwargs):
 # REVIEW ; update for token line
 class LineToken(models.Model):
     ''' add Line token for send line notify '''
-    name = models.CharField(max_length=200)
+    name  = models.CharField(max_length=200)
     token = models.CharField(max_length=200)
-    note = models.TextField(blank=True, null=True)
+    note  = models.TextField(blank=True, null=True)
     
     def __str__(self) -> str:
         return self.name

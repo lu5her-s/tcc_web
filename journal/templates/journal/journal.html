@@ -51,8 +51,8 @@
       <thead>
         <tr>
             <th onclick="sortTable(1)" style="width: 15%;">Type</th>
-            <th onclick="sortTable(2)" style="width: 15%">Title</th>
-            <th onclick="sortTable(3)" style="width: 25%;">Body</th>
+            <th onclick="sortTable(2)" style="width: 20%">Title</th>
+            <th onclick="sortTable(3)" style="width: 20%;">Body</th>
             <th onclick="sortTable(3)" style="width: 15%;">Status</th>
             <th onclick="sortTable(4)" style="width: 15%;">Created At</th>
             <th onclick="sortTable(6)" style="width: 15%;">...</th>
@@ -63,14 +63,14 @@
         {% for object in object_list %}
         <tr class="w3-hover-purple">
             <td>
-              <a href="#">
+              <a href="{% url 'journal:category' pk=object.category.pk %}">
               {{ object.category }}
               </a>
             </td>
             <td>{{ object.title }}</td>
             <td>{{ object.body|safe|slice:":25" }}</td>
             <td>
-                <a href="#">
+                <a href="{% url 'journal:status' pk=object.status.pk %}">
                   {{ object.status.name }}
                 </a>
             </td>
@@ -80,7 +80,7 @@
             </td>
             <td>
                 <a href="{{ object.get_absolute_url }}" class="w3-bar-item w3-button w3-light-blue">Detail</a>
-                <a href="{% url 'asset:update' pk=object.pk %}" class="w3-bar-item w3-button w3-orange"><i class="fa fa-cog"></i></a>
+                <a href="{% url 'journal:update' pk=object.pk %}" class="w3-bar-item w3-button w3-orange"><i class="fa fa-cog"></i></a>
             </td>
         </tr>
         {% endfor %}

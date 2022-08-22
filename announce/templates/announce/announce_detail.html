@@ -83,17 +83,7 @@
                 </td>
             </tr>
 
-            {% if files_list %}
-                {% for f in files_list %}
-                    <tr>
-                        <td>
-                            <a href="{{ f.files.url }}" target="_blank">เอกสารที่เกี่ยวข้อง--{{ f.files.name }}</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                
-            {% endif %}
-    
+   
         </table>
 
 
@@ -109,7 +99,24 @@
                 {% endfor %}
             {% endif %}
         </div>
+              {% if files_list %}
+              <br>
+              <hr>
+                {% for f in files_list %}
+                    <tr>
+                        <td>
+                            <iframe src="{{ f.files.url }}" frameborder="0" style="width: 100%; height: 800px;"></iframe>
+                            <br>
+                            <a href="{{ f.files.url }}" target="_blank">เอกสารที่เกี่ยวข้อง--{{ f.files.name }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
                 
+            {% endif %}
+        <div>
+
+        </div>
+               
         <br>
         <!-- Read Announce -->
         <form action="{% url 'announce:read' announce.pk %}" method="POST">
@@ -201,9 +208,9 @@
 
     {% if object.author.pk == request.user.pk %}
         <div class="w3-container w3-center">
+            <a href="{% url 'announce:list' %}" class="w3-bar-item w3-button w3-center w3-large w3-gray">Back</a>
             <a href="{% url 'announce:delete' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-red">Delete</a>
-            <a href="{% url 'announce:list' %}" class="w3-bar-item w3-button w3-center w3-large w3-lime">Back</a>
-            <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-center w3-large w3-gray">Home</a>
+            <a href="{% url 'announce:update' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-green">Update</a>
         </div>
     {% else %}
     <div class="w3-container w3-center">

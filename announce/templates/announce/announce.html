@@ -19,6 +19,12 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
+    .sub {
+        position:absolute;
+        top: -10px;
+        right: -10px;
+        background: orange;
+    }
 </style>
 <br>
 <div class="w3-container w3-center">
@@ -57,7 +63,12 @@
             <td>{{ announce.name }}</td>
             <td>{{ announce.author.profile.rank }}{{ announce.author.get_full_name }}</td>
             <td>{{ announce.created_at|timezone:"Asia/Bangkok"|thaidate }}</td>
-            <td>{{ announce.status }}</td>
+            <td>
+                {{ announce.status }}
+                {% if not announce in read and not announce.author == request.user %}
+                <span class="w3-badge w3-orange">!</span>
+                {% endif %}
+            </td>
             <td>
                 <a href="{% url 'announce:detail' pk=announce.pk %}" class="w3-button w3-small w3-light-blue">Detail</a>
             </td>

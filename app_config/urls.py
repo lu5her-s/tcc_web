@@ -23,6 +23,9 @@ from django.views.generic import TemplateView
 from account.views import HomeView
 
 urlpatterns = [
+    # admin external app
+    # path('grappelli/', include('grappelli.urls')), # grappelli URLS
+    
     path('admin/', admin.site.urls),
     # for test template
     path('', HomeView.as_view(), name='home'),
@@ -34,6 +37,7 @@ urlpatterns = [
     path('announce/', include('announce.urls', namespace='announce')),
     path('asset/', include('asset.urls', namespace='asset')),
     path('journal/', include('journal.urls', namespace='journal')),
+    path('assign/', include('assign.urls', namespace='assign')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

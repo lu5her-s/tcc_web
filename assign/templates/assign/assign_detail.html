@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% load crispy_forms_tags %}
+{% load tags %}
+
+{% block title %}{{ object.title }} {{ name }} {% endblock title %}
+
+{% block content %}
+
+{% comment %} <link rel="stylesheet" href="{% static 'external/photoswipe/photoswipe.css' %}"> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="{% static 'external/photoswipe/default-skin/default-skin.css' %}"> {% endcomment %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+{% comment %} <script src="{% static 'external/photoswipe/photoswipe.min.js' %}"></script> {% endcomment %}
+{% comment %} <script src="{% static 'external/photoswipe/photoswipe-ui-default.min.js' %}"></script> {% endcomment %}
+{% comment %} <script src="{% static 'js/app.js' %}"</script> {% endcomment %}
+
+<style>
+form {border: 3px solid #f1f1f1;}
+
+input {
+    padding:8px;
+    display:block;
+    border:none;
+    border-bottom:1px solid #ccc;
+    width:100%
+}
+
+    .imagecontainer {
+        text-align: center;
+        margin : 12px 0 6px 0;
+    }
+
+    img.avatar {
+        width: 25%;
+        border-radius: 50%;
+    }
+
+    button {
+        padding:14px 20px;
+        margin: 8px 0;
+        border-radius: 12px;
+        width: 100%;
+    }
+</style>
+
+<br>
+<div class="w3-container">
+    <h3 class="w3-center">{{ object.title }}</h3>
+    <table class="w3-table">
+        <tr>
+            <td style="width: 25%;">เรื่อง</td>
+            <td>{{ object.title }}</td>
+
+        </tr>
+
+        <tr>
+            <td style="width: 5%;">โดย</td>
+            <td>{{ object.author.profile.rank }}{{ object.author.get_full_name }}</td>
+
+            <td style="width: 10%;">เมื่อ</td>
+            <td>{{ object.created_at|thaidate }} เวลา 
+                {{ object.created_at|timezone:"Asia/Bangkok"|date:"H:i"}} น.
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width: 25%;">สถานะ</td>
+            <td>{{ object.status }}</td>
+
+            <td>ตอบรับเมื่อ</td>
+            {% if object.accepted %}
+            <td>
+                {{ object.accepted_on|thaidate }} เวลา 
+                {{ object.accepted_on|date:"H:i" }} น.
+            </td>
+            {% else %}
+            <td>ยังไม่ตอบรับ</td>
+            {% endif %}
+        </tr>
+
+    </table>
+    <br>
+
+    <table class="w3-table">
+        <tr>
+            <td><b><h4>รายละเอียด</h4></b></td>
+        </tr>
+        <tr style="border:solid;">
+            <td>
+                {{ object.body|safe|linebreaks }}
+            </td>
+        </tr>
+
+
+    </table>
+
+    <br>
+    
+    <table class="w3-table">
+        {% if note %}
+        <tr>
+            <td>
+                <b><h4>รายละเอียดการดำเนินการ</h4></b>
+            </td>
+        </tr>
+        {% for n in note %}
+        <tr style="border-bottom: 2px dashed black;">
+            <td style="width: 70%">{{ n.note|linebreaks }}</td>
+            <td>{{ n.created_at|thaidate }} เวลา {{ n.created_at|date:"H:m" }} น.</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </table>
+
+
+    {% if request.user.profile == object.assigned_to %}
+        {% if not object.accepted %}
+            <table class="w3-table">
+                <tr>
+                    <td class="w3-center">
+                        <a href="{% url 'assign:accept' pk=object.pk %}" class="w3-bar-itme w3-button w3-lime">Accept Assign</a>
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+        <br>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="w3-container">
+                {{ form.media }}
+                {{ form|crispy }}
+                <input type="hidden" name="assign_id" value="{{ object.pk }}">
+                {{ note_form|crispy }}
+                <button class="w3-button w3-green w3-large">{{ btn_text }}</button>
+            </div>
+        </form>
+        {% endif %}
+    {% endif %}
+
+    <br>
+
+
+    {% if object.author.pk == request.user.pk %}
+    <div class="w3-container w3-center">
+        <a href="{% url 'assign:staff-list' %}" class="w3-bar-item w3-button w3-center w3-large w3-gray">Back</a>
+        <a href="{% url 'assign:delete' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-red">Delete</a>
+        <a href="{% url 'assign:update' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-green">Update</a>
+    </div>
+    {% else %}
+    <div class="w3-container w3-center">
+        <a href="{% url 'assign:list' %}" class="w3-bar-item w3-button w3-center w3-blue">List</a>
+        <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-center w3-gray">Home</a>
+    </div>
+    {% endif %}
+
+</div>
+
+{% include 'components/photoswipe.html' %}
+
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script %}
+

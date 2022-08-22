@@ -24,7 +24,7 @@ class UserCreateForm(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2')
         labels = {
             'username' : 'ชื่อสำหรับเข้าใช้งาน',
-            'email' : 'อีเมลล์',
+            'email'    : 'อีเมลล์',
             # 'password1' : 'รหัสผ่าน',
             # 'password2' : 'ยืนยันรหัสผ่าน'
 		}
@@ -51,13 +51,13 @@ class UserForm(forms.ModelForm):
         )
         labels = {
             'first_name': 'ชื่อ',
-            'last_name': 'นามสกุล',
-            'email': 'Email'
+            'last_name':  'นามสกุล',
+            'email':      'Email'
         }
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'input w3-input'}),
-            'email' : forms.EmailInput(attrs={'class': 'input w3-input'})
+            'last_name':  forms.TextInput(attrs={'class': 'input w3-input'}),
+            'email':      forms.EmailInput(attrs={'class': 'input w3-input'})
         }
 
 class ProfileForm(forms.ModelForm):
@@ -77,12 +77,12 @@ class ProfileForm(forms.ModelForm):
 			'image'   : 'รูปประจำตัว',
 		}
 		widgets = {
-			'rank'    : widgets.Select(attrs={'class': 'form-control'}),
-			'position': forms.Select(attrs={'class': 'form-control'}),
-			'sector': forms.Select(attrs={'class': 'form-control'}),
-			'place': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'เช่น สทค.มทบ...'}),
-			'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'image' : forms.ClearableFileInput(attrs={'class': 'form-control'}),
+			'rank':     widgets.Select(attrs={'class':           'form-control'}),
+			'position': forms.Select(attrs={'class':             'form-control'}),
+			'sector':   forms.Select(attrs={'class':             'form-control'}),
+			'place':    forms.TextInput(attrs={'class':          'form-control', 'placeholder': 'เช่น สทค.มทบ...'}),
+			'phone':    forms.TextInput(attrs={'class':          'form-control'}),
+            'image':    forms.ClearableFileInput(attrs={'class': 'form-control'}),
 		}
 
 
@@ -100,7 +100,7 @@ class RankForm(forms.ModelForm):
   
 class SectorForm(forms.ModelForm):
     class Meta:
-        model = Sector
+        model  = Sector
         fields = ('name',)
         labels = {
 			'name': 'สังกัด',
@@ -111,7 +111,7 @@ class SectorForm(forms.ModelForm):
 
 class PositionForm(forms.ModelForm):
     class Meta:
-        model = Position
+        model  = Position
         fields = ('name',)
         labels = {
 			'name' : 'ตำแหน่ง',
@@ -122,15 +122,15 @@ class PositionForm(forms.ModelForm):
 
 class LineTokenForm(forms.ModelForm):
     class Meta:
-        model = LineToken
+        model  = LineToken
         fields = ('name', 'token', 'note')
         labels = {
-            'name' : 'ชื่อโทเคน',
-            'token' : 'Token',
-            'note' : 'หมายเหตุ',
+            'name':  'ชื่อโทเคน',
+            'token': 'Token',
+            'note':  'หมายเหตุ',
         }
         widgets = {
-            'name' : forms.TextInput(attrs={'class': 'w3-input', 'placeholder': 'ชื่อโทเคน'}),
-            'token' : forms.TextInput(attrs={'class': 'w3-input', 'placeholder': 'Line token...'}),
-            'note' : forms.Textarea(attrs={'class': 'w3-input'})
+            'name':  forms.TextInput(attrs={'class': 'w3-input', 'placeholder': 'ชื่อโทเคน'}),
+            'token': forms.TextInput(attrs={'class': 'w3-input', 'placeholder': 'Line token...'}),
+            'note':  forms.Textarea(attrs={'class':  'w3-input'})
         }

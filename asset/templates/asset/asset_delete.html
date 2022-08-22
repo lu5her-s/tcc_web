@@ -81,13 +81,13 @@
         <button type="submit" class="w3-button w3-red w3-large">{{ btn_text }}</button>
     </div>  
 
-    <div class="w3-bar">
-        <button class="w3-bar-item w3-button w3-large w3-right">
-            <a href="{% url 'asset:list' %}" style="text-decoration: none;">Cancle</a>
-        </button>
-    </div>
+    
 </form>
-
+<div class="w3-bar">
+    <button class="w3-bar-item w3-button w3-large w3-right">
+        <a href="{% url 'asset:list' %}" style="text-decoration: none;">Cancle</a>
+    </button>
+</div>
 <br><br><br>
 
 {% endblock content %}

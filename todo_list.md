@@ -1,0 +1,12 @@
+- Home page: Done
+- Announce : Done
+- Support
+- Assign
+- Job
+- Repair
+- Car
+- Asset: Done
+- Stock
+- Journal: Done
+- Document
+- User List: Done

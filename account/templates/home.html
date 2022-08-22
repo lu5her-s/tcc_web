@@ -6,197 +6,226 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
+<style type="text/css" media="screen">
+a {
+    text-decoration: none;
+    color: black;
+}
+</style>
 
-  <!-- Header -->
-  <header class="w3-container" style="padding-top:22px">
+<!-- Header -->
+<header class="w3-container" style="padding-top:22px">
     <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
-  </header>
+</header>
 
-  <div class="w3-row-padding w3-margin-bottom">
+<div class="w3-row-padding w3-margin-bottom">
     <div class="w3-quarter">
-      <div class="w3-container w3-red w3-padding-16">
-        <!-- REVIEW : tag a before i -->
-        <a href="{% url 'announce:not-read' %}" style="text-decoration:none;" class="w3-clear w3-black">
-          <div class="w3-left"><i class="fa fa-bell w3-xxxlarge"></i></div>
-          <div class="w3-right">
-            <h3>{{ not_read }}</h3>
-          </div>
-          <div class="w3-clear"></div>
-          <h4>ยังไม่ได้อ่าน</h4>
-        </a>
-      </div>
-    </div>
-
-    <div class="w3-quarter">
-      <div class="w3-container w3-blue w3-padding-16">
-        <a href="#" style="text-decoration:none;" class="w3-clear w3-black">
-          <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
-          <div class="w3-right">
-            <h3>99</h3>
-          </div>
-          <div class="w3-clear"></div>
-          <h4>งานที่รอรับมอบ</h4>
-      </a>
-      </div>
-    </div>
-
-    <div class="w3-quarter">
-      <div class="w3-container w3-teal w3-padding-16">
-        <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
-        <div class="w3-right">
-          <h3>23</h3>
+        <div class="w3-container w3-red w3-padding-16">
+            <!-- REVIEW : tag a before i -->
+            <a href="{% url 'announce:not-read' %}" class="w3-clear w3-black">
+                <div class="w3-left"><i class="fa fa-bell w3-xxxlarge"></i></div>
+                <div class="w3-right">
+                    <h3>{{ not_read.count }}</h3>
+                </div>
+                <div class="w3-clear"></div>
+                <h4>ยังไม่ได้อ่าน</h4>
+            </a>
         </div>
-        <div class="w3-clear"></div>
-        <h4>งานเอกสาร</h4>
-      </div>
     </div>
 
     <div class="w3-quarter">
-      <div class="w3-container w3-orange w3-text-white w3-padding-16">
-        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
-        <div class="w3-right">
-          <h3>50</h3>
+        <div class="w3-container w3-blue w3-padding-16">
+            {% if request.user|has_group:"Staff" %}
+            <a href="{% url 'assign:staff-list' %}" class="w3-clear w3-black">
+                {% else %}
+                <a href="{% url 'assign:list' %}" class="w3-clear w3-black">
+                    {% endif %}
+                    <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+                    <div class="w3-right">
+                        {% if request.user|has_group:"Staff" %}
+                        <h3>{{ assign_staff_waiting }}</h3>
+                        {% else %}
+                        <h3>{{ assign_waiting }}</h3>
+                        {% endif %}
+                    </div>
+                    <div class="w3-clear"></div>
+                    <h4>งานที่รอรับมอบ</h4>
+                </a>
         </div>
-        <div class="w3-clear"></div>
-        <h4>ร้องขอ/สนับสนุน</h4>
-      </div>
     </div>
-  </div>
 
-  <div class="w3-panel">
+    <div class="w3-quarter">
+        <div class="w3-container w3-teal w3-padding-16">
+            <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+            <div class="w3-right">
+                <h3>23</h3>
+            </div>
+            <div class="w3-clear"></div>
+            <h4>งานเอกสาร</h4>
+        </div>
+    </div>
+
+    <div class="w3-quarter">
+        <div class="w3-container w3-orange w3-text-white w3-padding-16">
+            <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+            <div class="w3-right">
+                <h3>50</h3>
+            </div>
+            <div class="w3-clear"></div>
+            <h4>ร้องขอ/สนับสนุน</h4>
+        </div>
+    </div>
+</div>
+
+<div class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
-      <div class="w3-third">
-        <h5>{{ user.profile.rank }} {{ user.get_full_name }}</h5>
-        {% if user.profile.image %}
-          <img src="{{ user.profile.image.url }}" style="width:100%" alt="User Image">
-        {% else %}
-          <img src="{% static 'logo.png' %}" style="width:100%" alt="Logo">
-        {% endif %}
-      </div>
+        <div class="w3-third">
+            <h5>{{ user.profile.rank }} {{ user.get_full_name }}</h5>
+            {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" style="width:100%" alt="User Image">
+            {% else %}
+            <img src="{% static 'logo.png' %}" style="width:100%" alt="Logo">
+            {% endif %}
+        </div>
 
-      <div class="w3-twothird">
-        <h5>Overall</h5>
-        <table class="w3-table w3-striped w3-white">
+        <div class="w3-twothird">
+            <h5>Overall</h5>
+            <table class="w3-table w3-striped w3-white">
 
-          <tr>
-            <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
-            <td>การมอบหมายงาน ทั้งหมด</td>
-            <td><i>10 งาน</i></td>
-          </tr>
+                <tr>
+                    <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
+                    {% if request.user|has_group:"Staff" %}
+                    <td>
+                        <a href="{% url 'assign:staff-list' %}">
+                            การมอบหมายงาน ทั้งหมด
+                        </a>
+                    </td>
+                    <td><i>{{ assign_staff.count }} งาน</i></td>
+                    {% else %}
+                    <td>
+                        <a href="{% url 'assign:list' %}">งานมอบหมาย ทั้งหมด</a>
+                    </td>
+                    <td><i>{{ assign.count }} งาน</i></td>
+                    {% endif %}
+                </tr>
 
-          <tr>
-            <td><i class="fa fa-bell w3-text-red w3-large"></i></td>
-            <td>จำนวนประชาสัมพันธ์/สั่งการ</td>
-            <td><i>{{ announce.count }} เรื่อง</i></td>
-          </tr>
+                <tr>
+                    <td><i class="fa fa-bell w3-text-red w3-large"></i></td>
+                    <td>จำนวนประชาสัมพันธ์/สั่งการ</td>
+                    <td><i>{{ announce.count }} เรื่อง</i></td>
+                </tr>
 
-          <tr>
-            <td><i class="fa fa-users w3-text-yellow w3-large"></i></td>
-            <td>การร้องขอ/สนับสนุน</td>
-            <td><i>17 เรื่อง</i></td>
-          </tr>
+                <tr>
+                    <td><i class="fa fa-users w3-text-yellow w3-large"></i></td>
+                    <td>การร้องขอ/สนับสนุน</td>
+                    <td><i>17 เรื่อง</i></td>
+                </tr>
 
-          <tr>
-            <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
-            <td>จำนวนความคิดเห็น</td>
-            <td><i>{{ comments.count }} ความคิดเห็น</i></td>
-          </tr>
+                <tr>
+                    <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
+                    <td>จำนวนความคิดเห็น</td>
+                    <td><i>{{ comments.count }} ความคิดเห็น</i></td>
+                </tr>
 
-          <tr>
-            <td><i class="fa fa-bookmark w3-text-blue w3-large"></i></td>
-            <td>บันทึกการทำงานทั้งหมด</td>
-            <td><i>28 งาน</i></td>
-          </tr>
+                <tr>
+                    <td><i class="fa fa-bookmark w3-text-blue w3-large"></i></td>
+                    <td>
+                        <a href="{% url 'journal:list' %}" style="text-decoration:none; color:black;">
+                            บันทึกการทำงานทั้งหมด
+                        </a>
+                    </td>
+                    <td><i>{{ journal.count }} งาน</i></td>
+                </tr>
 
-          <tr>
-            <td><i class="fa fa-laptop w3-text-red w3-large"></i></td>
-            <td>สินทรัพย์ในความรับผิดชอบ</td>
-            <td><i>35 สินทรัพย์</i></td>
-          </tr>
+                <tr>
+                    <td><i class="fa fa-laptop w3-text-red w3-large"></i></td>
+                    <td>สินทรัพย์ในความรับผิดชอบ</td>
+                    <td><i>35 สินทรัพย์</i></td>
+                </tr>
 
-          <tr>
-            <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
-            <td>เอกสาร</td>
-            <td><i>39 เรื่อง</i></td>
-          </tr>
+                <tr>
+                    <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
+                    <td>เอกสาร</td>
+                    <td><i>39 เรื่อง</i></td>
+                </tr>
 
-        </table>
-      </div>
+            </table>
+        </div>
     </div>
-  </div>
+</div>
 
-  <hr>
+<hr>
 
-  <div class="w3-container">
+<div class="w3-container">
     <h5>บันทึกการทำงานทั้งหมด จำนวน 10 งาน</h5>
     <p>ที่แล้วเสร็จ</p>
     <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
+        <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
     </div>
 
     <p>ที่กำลังดำเนินการ</p>
     <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-orange" style="width:50%">50%</div>
+        <div class="w3-container w3-center w3-padding w3-orange" style="width:50%">50%</div>
     </div>
 
     <p>ที่กำลังรอดำเนินการ</p>
     <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
+        <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
     </div>
-  </div>
+</div>
 
 
-  <hr>
+<hr>
 
 
-  <div class="w3-container">
+<div class="w3-container">
     <h5>ความคิดเห็นล่าสุด</h5>
     {% for comment in recent_comment %}
-      <div class="w3-row">
+    <div class="w3-row">
         <div class="w3-col m2 text-center">
-          <img class="w3-circle" src="{{ comment.author.profile.image.url }}" style="width:96px;height:96px">
+            <img class="w3-circle" src="{{ comment.author.profile.image.url }}" style="width:96px;height:96px">
         </div>
         <div class="w3-col m10 w3-container">
-          <h4>{{ comment.author }} <span class="w3-opacity w3-medium">- {{ comment.created_at|timezone:"Asia/Bangkok"|thaidate }} ({{ comment.created_at|timezone:"Asia/Bangkok"|timesince }})</span></h4>
-          <p>{{ comment.comment }} </p>
-          <br>
+            <h4>{{ comment.author }} <span class="w3-opacity w3-medium">- {{ comment.created_at|timezone:"Asia/Bangkok"|thaidate }} ({{ comment.created_at|timezone:"Asia/Bangkok"|timesince }})</span></h4>
+            <p>{{ comment.comment }} </p>
+            <br>
         </div>
-      </div>
-      <br>
+    </div>
+    <br>
     {% endfor %}
 
-  <br>
+    <br>
 
-  <div class="w3-container w3-dark-grey w3-padding-32">
-    <div class="w3-row">
-      
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-green">Demographic</h5>
-        <p>Language</p>
-        <p>Country</p>
-        <p>City</p>
-      </div>
-      
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-red">System</h5>
-        <p>Browser</p>
-        <p>OS</p>
-        <p>More</p>
-      </div>
-      
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-orange">Target</h5>
-        <p>Users</p>
-        <p>Active</p>
-        <p>Geo</p>
-        <p>Interests</p>
-      </div>
-    
+    <div class="w3-container w3-dark-grey w3-padding-32">
+        <div class="w3-row">
+
+            <div class="w3-container w3-third">
+                <h5 class="w3-bottombar w3-border-green">Demographic</h5>
+                <p>Language</p>
+                <p>Country</p>
+                <p>City</p>
+            </div>
+
+            <div class="w3-container w3-third">
+                <h5 class="w3-bottombar w3-border-red">System</h5>
+                <p>Browser</p>
+                <p>OS</p>
+                <p>More</p>
+            </div>
+
+            <div class="w3-container w3-third">
+                <h5 class="w3-bottombar w3-border-orange">Target</h5>
+                <p>Users</p>
+                <p>Active</p>
+                <p>Geo</p>
+                <p>Interests</p>
+            </div>
+
+        </div>
+
     </div>
-  
-  </div>
 
-  <!-- End page content -->
+    <!-- End page content -->
 
-{% endblock content %}
+    {% endblock content %}
 

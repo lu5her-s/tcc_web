@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # admin app Django external
+    # 'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'announce',
     'asset',
     'journal',
+    'assign',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -146,3 +149,5 @@ MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'

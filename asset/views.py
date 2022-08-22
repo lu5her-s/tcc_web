@@ -22,27 +22,27 @@ from asset.models import (
 # Create your views here.
 
 class AssetListView(LoginRequiredMixin, ListView):
-    login_url = reverse_lazy('login')
+    login_url     = reverse_lazy('login')
     template_name = 'asset/asset.html'
-    model = Asset
-    ordering = ('-created_at')
+    model         = Asset
+    ordering      = ('-created_at')
     
 class AssetDetailView(LoginRequiredMixin, DetailView):
-    login_url = reverse_lazy('login')
+    login_url     = reverse_lazy('login')
     template_name = 'asset/asset_detail.html'
-    model = Asset
+    model         = Asset
 
 class AssetCreateView(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy('login')
+    login_url     = reverse_lazy('login')
     template_name = 'asset/asset_form.html'
-    form_class = AssetForm
-    success_url = reverse_lazy('asset:list')
+    form_class    = AssetForm
+    success_url   = reverse_lazy('asset:list')
 
     def get(self, request, *args, **kwargs):
         context = {
-            'form' : self.form_class,
-            'title' : 'Create',
-            'header' : 'เพิ่มรายการทรัพย์สิน',
+            'form'     : self.form_class,
+            'title'    : 'Create',
+            'header'   : 'เพิ่มรายการทรัพย์สิน',
             'btn_text' : 'เพิ่ม'
         }
         return render(request, self.template_name, context)
@@ -60,21 +60,21 @@ class AssetCreateView(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, context)
 
 class AssetUpdateView(LoginRequiredMixin, UpdateView):
-    login_url = reverse_lazy('login')
+    login_url     = reverse_lazy('login')
     template_name = 'asset/asset_form.html'
-    form_class = AssetForm
-    model = Asset
+    form_class    = AssetForm
+    model         = Asset
     # success_url = reverse_lazy('asset:detail', kwargs={'pk' : self.pk})
 
     def get_success_url(self):
         return reverse_lazy('asset:detail', kwargs={'pk' : self.get_object().pk })
     
     def get(self, request, *args, **kwargs):
-        form = self.form_class(instance=self.get_object())
+        form    = self.form_class(instance=self.get_object())
         context = {
-            'form' : form,
-            'header' : 'แก้ไชสินทรัพย์',
-            'title' : 'Update',
+            'form'     : form,
+            'header'   : 'แก้ไชสินทรัพย์',
+            'title'    : 'Update',
             'btn_text' : 'อัพเดท',
         }
         return render(request, self.template_name, context)
@@ -85,25 +85,25 @@ class AssetUpdateView(LoginRequiredMixin, UpdateView):
             form.save()
             return redirect(self.get_success_url())
         else:
-            form = self.form_class(instance=self.get_object())
+            form    = self.form_class(instance=self.get_object())
             context = {
-                'form' : form,
-                'header' : 'แก้ไชสินทรัพย์',
-                'title' : 'Update',
+                'form'     : form,
+                'header'   : 'แก้ไชสินทรัพย์',
+                'title'    : 'Update',
                 'btn_text' : 'อัพเดท',
             }
         return render(request, self.template_name, context)
         
 
 class AssetDeleteView(LoginRequiredMixin, DeleteView):
-    model = Asset
+    model         = Asset
     template_name = 'asset/asset_delete.html'
-    success_url = reverse_lazy('asset:list')
+    success_url   = reverse_lazy('asset:list')
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = 'Delete'
-        context["header"] = "ลบสินทรัพย์"
+        context             = super().get_context_data(**kwargs)
+        context["title"]    = 'Delete'
+        context["header"]   = "ลบสินทรัพย์"
         context["btn_text"] = "ยืนยันการลบ"
         return context
     
@@ -113,7 +113,7 @@ def CategoryListView(request, pk):
     context = {
         'object_list': object_list,
         'description': description,
-        'btn': "Back",
+        'btn':         "Back",
     }
     return render(request, 'asset/asset.html', context)
     
@@ -123,16 +123,16 @@ def LocationListView(request, pk):
     context = {
         'object_list': object_list,
         'description': description,
-        'btn': "Back",
+        'btn':         "Back",
     }
     return render(request, 'asset/asset.html', context)
 
 def ManufacturerListView(request, pk):
     object_list = Asset.objects.filter(manufacturer__id__exact=pk)
-    description =Manufacturer.objects.get(pk=pk)
-    context = {
+    description = Manufacturer.objects.get(pk=pk)
+    context     = {
         'object_list': object_list,
         'description': description,
-        'btn': "Back",
+        'btn':         "Back",
     }
     return render(request, 'asset/asset.html', context)
