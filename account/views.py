@@ -188,5 +188,3 @@ class LineTokenUpdateView(LoginRequiredMixin, UpdateView):
                 'form' : form
             }
             return render(request, self.template_name, context)
-        
-        

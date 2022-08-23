@@ -33,6 +33,10 @@
         border-radius: 12px;
         width: 100%;
     }
+    table tr td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
 </style>
 
 <form method="post">
@@ -40,6 +44,25 @@
     <div class="imagecontainer">
         <img src="{% static 'logo.png' %}" alt="Logo" class="avatar">
         <h1>เข้าสู่ระบบ</h1>
+    </div>
+    <div class="w3-container w3-center">
+        <table class="w3-table w3-centered">
+            <tr>
+                <th style="width: 25%;">Name</th>
+                <th>User</th>
+                <th>Password</th>
+            </tr>
+            <tr>
+                <td>Admin, Staff</td>
+                <td>admin</td>
+                <td>adminlouis</td>
+            </tr>
+            <tr>
+                <td>technical</td>
+                <td>tech</td>
+                <td>techtech</td>
+            </tr>
+        </table>
     </div>
 
     <div class="w3-container">
