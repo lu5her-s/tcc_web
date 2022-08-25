@@ -28,6 +28,7 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
     # for test template
+    path('test/', TemplateView.as_view(template_name='test.html')),
     path('', HomeView.as_view(), name='home'),
     
     # for manage user account
@@ -38,6 +39,7 @@ urlpatterns = [
     path('asset/', include('asset.urls', namespace='asset')),
     path('journal/', include('journal.urls', namespace='journal')),
     path('assign/', include('assign.urls', namespace='assign')),
+    path('document/', include('document.urls', namespace='document')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

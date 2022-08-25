@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% load tags %}
+
+{% block title %}Document{% endblock title %}
+
+{% block content %}
+<style type="text/css" media="screen">
+a {
+    text-decoration: none;
+}
+</style>
+
+<!-- Header -->
+<header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-dashboard"></i> Document Manager</b></h5>
+</header>
+
+<div class="row justify-content-center">
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white w3-light-green o-hidden h-100">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fa fa-inbox" style="font-size: 30px;"></i>
+                    &nbsp;<b style="font-size: 20px">Inbox</b>
+                    <span style="float: right; font-size: 20px;">20</span>
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="{% url 'document:inbox' %}">
+                <span class="float-left"><b>Manage</b></span>
+                <span class="float-right">
+                    <i class="fa fa-angle-right" style="float: right;"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-black w3-pale-yellow o-hidden h-100">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fa fa-send" style="font-size: 30px;"></i>
+                    &nbsp;<b style="font-size: 20px;">Outbox</b>
+                    <span style="float: right; font-size: 20px">15</span>
+                </div>
+            </div>
+            <a class="card-footer text-black clearfix small z-1" href="#">
+                <span class="float-left"><b>Manage</b></span>
+                <span class="float-right">
+                    <i class="fa fa-angle-right" style="float: right;"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white w3-deep-orange o-hidden h-100">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fa fa-level-down" style="font-size: 30px;"></i>
+                    &nbsp;<b style="font-size: 20px;">To Me</b>
+                    <span style="float: right; font-size: 20px">15</span>
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left"><b>Manage</b></span>
+                <span class="float-right">
+                    <i class="fa fa-angle-right" style="float: right;"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<br>
+<hr>
+<br>
+
+
+
+    <!-- End page content -->
+
+    {% endblock content %}
+

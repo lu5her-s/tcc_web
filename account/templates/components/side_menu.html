@@ -39,8 +39,13 @@
             <i class="fa fa-cog"></i>
         </a>
         {% endif %}
-        <a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-pale-red">
-          <i class="fa fa-sign-out"></i>
+        <!--<a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-pale-red">-->
+        <!--<i class="fa fa-sign-out"></i>-->
+        <!--</a>-->
+        <a href="#" 
+            onclick="document.getElementById('logoutModal').style.display='block'"
+            class="w3-bar-item w3-button w3-pale-red">
+            <i class="fa fa-sign-out"></i>
         </a>
       </div>
     <!-- REVIEW : if user not login-->
@@ -81,8 +86,40 @@
       <a href="{% url 'asset:list' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-shopping-basket fa-fw"></i>  เบิก/คืน</a>
       <!--<a href="{% url 'asset:list' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-fab fa-stack-overflow fa-fw"></i>  เบิก/จ่าย</a>-->
       <a href="{% url 'journal:list' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bookmark fa-fw"></i>  บันทึกการทำงาน</a>
-      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-share-alt fa-fw"></i>  เอกสาร</a>
+      <a href="{% url 'document:home' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-share-alt fa-fw"></i>  เอกสาร</a>
       <a href="{% url 'account:members' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  รายชื่อกำลังพล</a>
     </div>
 </nav>
+
+<div id="logoutModal" class="w3-modal w3-animate-opacity">
+  <div class="w3-modal-content">
+
+      <br>
+    <header class="w3-container">
+      <span onclick="document.getElementById('logoutModal').style.display='none'"
+      class="w3-button w3-display-topright">X</span>
+      <h2>ต้องการออกจากระบบ</h2>
+    </header>
+
+    <br>
+    
+    <div class="w3-container">
+      <p>ยืนยันการออกจากระบบ!!!..</p>
+    </div>
+
+    <br>
+    
+    <footer class="w3-container">
+        <a href="{% url 'logout' %}">
+        <button class="w3-button w3-red" style="float: right;">ยืนยัน</button>
+        </a>
+        &nbsp;
+        <button  onclick="document.getElementById('logoutModal').style.display='none'"
+            class="w3-button" style="float: right;">ยกเลิก</button>
+    </footer>
+    <br>
+    
+
+  </div>
+</div>
 

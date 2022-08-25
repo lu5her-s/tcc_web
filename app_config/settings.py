@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'asset',
     'journal',
     'assign',
+    'document',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
