@@ -63,13 +63,13 @@
             </button>
             <button type="reset" class="w3-bar-item w3-button w3-right">Reset</button>
             <button class="w3-bar-item w3-button w3-right">
-                <a href="{% url 'announce:list' %}" style="text-decoration: none;">Cancle</a>
+                <a href="{% url 'document:inbox' %}" style="text-decoration: none;">Cancle</a>
             </button>
         {% else %}
         
         <button type="reset" class="w3-bar-item w3-button w3-right">Reset</button>
         <button class="w3-bar-item w3-button w3-right">
-            <a href="{% url 'announce:list' %}" style="text-decoration: none;">Cancle</a>
+            <a href="{% url 'document:inbox' %}" style="text-decoration: none;">Cancle</a>
         </button>
 
         {% endif %}

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from document.models import Inbox
+from document.models import Inbox, InboxFile
 
 # Register your models here.
 
@@ -10,3 +10,5 @@ from document.models import Inbox
 class InboxAdmin(admin.ModelAdmin):
     list_display = ('receive_no', 'send_from', 'urgency', 'title', 'receive_date', 'receiver',)
     list_filter = ('receive_no', 'send_from', 'urgency', 'receiver',)
+
+admin.site.register(InboxFile)

@@ -186,7 +186,7 @@ a {
             <img class="w3-circle" src="{{ comment.author.profile.image.url }}" style="width:96px;height:96px">
         </div>
         <div class="w3-col m10 w3-container">
-            <h4>{{ comment.author }} <span class="w3-opacity w3-medium">- {{ comment.created_at|timezone:"Asia/Bangkok"|thaidate }} ({{ comment.created_at|timezone:"Asia/Bangkok"|timesince }})</span></h4>
+            <h5>{{ comment.author.profile.rank }}{{ comment.author.get_full_name }} <span class="w3-opacity w3-medium">- {{ comment.created_at|timezone:"Asia/Bangkok"|thaidate }} ({{ comment.created_at|timezone:"Asia/Bangkok"|timesince }})</span></h5>
             <p>{{ comment.comment }} </p>
             <br>
         </div>

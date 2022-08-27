@@ -43,6 +43,8 @@
         width: 100%;
     }
 </style>
+<br>
+
 
 <div class="w3-container">
     <h3 class="w3-center">{{ object.name }}</h3>
@@ -166,14 +168,24 @@
         {{ comments_count }} - ความคิดเห็น
         <hr />
         <div class="w3-container">
-          {% for data in comments %}
-            <div class="w3-content">
-              <img class="w3-image rounded-circle" src="{{ data.author.profile.image.url }}" width="50" height="50" alt="">
-              <span class="w3-row w3-auto">
-                <h5>{{ data.author.first_name }} {{ data.author.last_name }} - <small>{{ data.created_at | timesince }}</small></h5>
-                {{ data.comment }} <br />
-              </span>
-              
+          {% for comment in comments %}
+          <!--<div class="w3-row">-->
+          <!--<img class="w3-image rounded-circle" src="{{ data.author.profile.image.url }}" width="50" height="50" alt="">-->
+          <!--<span class="w3-row w3-auto">-->
+          <!--<h5>{{ data.author.first_name }} {{ data.author.last_name }} - <small>{{ data.created_at | timesince }}</small></h5>-->
+          <!--{{ data.comment }} <br />-->
+          <!--</span>-->
+          <!-- -->
+          <!--</div>-->
+            <div class="w3-row">
+                <div class="w3-col m2 text-center">
+                    <img class="w3-circle" src="{{ comment.author.profile.image.url }}" style="width:96px;height:96px">
+                </div>
+                <div class="w3-col m10 w3-container">
+                    <h4>{{ comment.author.profile.rank }}{{ comment.author.get_full_name }} <span class="w3-opacity w3-medium">- {{ comment.created_at|timezone:"Asia/Bangkok"|thaidate }} ({{ comment.created_at|timezone:"Asia/Bangkok"|timesince }})</span></h4>
+                    <p>{{ comment.comment }} </p>
+                    <br>
+                </div>
             </div>
             <br />
             <hr />
@@ -199,7 +211,7 @@
               </div>
               <div class="row">
                 <div class="w3-row">
-                  <button type="submit" class="w3-bar-item w3-button w3-col s2 w3-rigth w3-large w3-light-blue">ส่งความคิดเห็น</button>
+                  <button type="submit" class="w3-bar-item w3-button w3-col s2 w3-right w3-large w3-light-blue">ส่งความคิดเห็น</button>
                 </div>
               </div>
             </form>

@@ -7,4 +7,5 @@ urlpatterns = [
         path('', views.HomeView.as_view(), name='home'),
         path('inbox/', views.InboxListView.as_view(), name='inbox'),
         path('inbox/accept/', views.InboxCreateView.as_view(), name='accept'),
+        path('inbox/<int:pk>/', views.InboxDetailView.as_view(), name='inbox-detail'),
         ]

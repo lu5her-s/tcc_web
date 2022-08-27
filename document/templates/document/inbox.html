@@ -6,9 +6,9 @@
 {% block title %}Inbox List{% endblock title %}
 
 {% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 <style type="text/css">
     table {
         border-spacing: 0;
@@ -55,11 +55,11 @@
 
 <br>
 
-<div class="w3-content table-responsive">
-    <table class="w3-table w3-small table-bordered" id="dataTable" width="100%" cellspacing="0" cellpadding="0">
+<div class="w3-content table-responsive" width="100%">
+    <table class="w3-table table-bordered" id="dataTable" width="100%" cellspacing="0" cellpadding="0">
       <thead>
         <tr>
-            <th onclick="sortTable(1)">การดำเนินการ</th>
+            <th onclick="sortTable(1)">การปฏิบัติ</th>
             <th onclick="sortTable(2)">เลขรับที่</th>
             <th onclick="sortTable(3)">รายละเอียดเอกสาร</th>
             <th onclick="sortTable(3)">ผู้รับ</th>
@@ -76,7 +76,15 @@
               </a>
             </td>
             <td>{{ object.receive_no }}</td>
-            <td>{{ object.send_from }} {{ object.urgency }} ที่ {{ object.doc_no }} เรื่อง {{ object.title }}</td>
+            <td>
+                {{ object.send_from }} 
+                <span>
+                    {% if object.urgency == 'ด่วนมาก' or object.urgency == 'ด่วนที่สุด' %}
+                    <span class="w3-red">{{ object.urgency }}</span>
+                    {% endif %}
+                </span> 
+                ที่ {{ object.doc_no }} เรื่อง {{ object.title }}
+            </td>
             <td>
                 {% if not ocject.receiver.profile.rank %}
                 {{ object.receiver.profile.rank }}{{ object.receiver.get_full_name }}
@@ -85,7 +93,7 @@
                 {% endif %}
             </td>
             <td>
-                <a href="#" class="w3-bar-item w3-button w3-light-blue">Detail</a>
+                <a href="{% url 'document:inbox-detail' pk=object.pk %}" class="w3-bar-item w3-button w3-light-blue">Detail</a>
             </td>
         </tr>
         {% endfor %}

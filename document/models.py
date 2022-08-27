@@ -1,5 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
+
+from account.models import Profile, Sector
 
 # Create your models here.
 
@@ -24,6 +26,7 @@ class Inbox(models.Model):
             ('รอการปฎิบัติ', 'รอการปฏิบัติ'),
             ('รับ',        'รับ'),
             ]
+
     receive_no   = models.CharField(max_length=255)
     send_from    = models.CharField(max_length=255)
     doc_no       = models.CharField(max_length=255)
@@ -36,6 +39,8 @@ class Inbox(models.Model):
     set_in       = models.CharField(max_length=255, null=True, blank=True)
     status       = models.CharField(max_length=255, choices=STATUS, default="รับ")
     #doc_file = models.FileField(upload_to=get_file_name)
+    assigned_to  = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True, related_name='assignedUser')
+    assigned_group = models.ManyToManyField(Sector, null=True, blank=True, related_name='assignedGroup')
 
     def __str__(self):
         if self.receiver.first_name:
