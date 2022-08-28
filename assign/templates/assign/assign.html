@@ -53,11 +53,11 @@ table {
         {% if request.user|has_group:"Staff" %}
         <thead>
             <tr>
-                <th onclick="sortTable(1)" style="width: 25%;">Title</th>
-                <th onclick="sortTable(2)" style="width: 20%">Assign To</th>
-                <th onclick="sortTable(3)" style="width: 15%;">Created At</th>
-                <th onclick="sortTable(4)" style="width: 15%;">Status</th>
-                <th onclick="sortTable(5)" style="width: 15%;">Accepted</th>
+                <th onclick="sortTable(1)" style="width: 25%;">เรื่อง</th>
+                <th onclick="sortTable(2)" style="width: 20%">มอบหมายให้</th>
+                <th onclick="sortTable(3)" style="width: 15%;">มอบหมายเมื่อ</th>
+                <th onclick="sortTable(4)" style="width: 15%;">สถานะ</th>
+                <th onclick="sortTable(5)" style="width: 15%;">การตอบรับ</th>
                 <th onclick="sortTable(6)" style="width: 10%;">...</th>
             </tr>
         </thead>
@@ -92,11 +92,11 @@ table {
         {% else %}
         <thead>
             <tr>
-                <th onclick="sortTable(1)" style="width: 25%;">Title</th>
-                <th onclick="sortTable(2)" style="width: 20%">Assign from</th>
-                <th onclick="sortTable(3)" style="width: 15%;">Created At</th>
-                <th onclick="sortTable(4)" style="width: 15%;">Status</th>
-                <th onclick="sortTable(5)" style="width: 15%;">Accepted</th>
+                <th onclick="sortTable(1)" style="width: 25%;">เรื่อง</th>
+                <th onclick="sortTable(2)" style="width: 20%">ผู้มอบหมาย</th>
+                <th onclick="sortTable(3)" style="width: 15%;">มอบหมายเมื่อ</th>
+                <th onclick="sortTable(4)" style="width: 15%;">สถานะ</th>
+                <th onclick="sortTable(5)" style="width: 15%;">การตอบรับ</th>
                 <th onclick="sortTable(6)" style="width: 10%;">...</th>
             </tr>
         </thead>

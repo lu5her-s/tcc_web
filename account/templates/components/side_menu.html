@@ -5,10 +5,10 @@
 <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:250px;" id="mySidebar"><br>
   <div class="w3-container w3-row">
     <!-- REVIEW : if user is login -->
-    {% if user.is_authenticated %}
-    {% if user.profile.image %}
+    {% if request.user.is_authenticated %}
+    {% if request.user.profile.image %}
     <div class="w3-col s4">
-      <img src="{{ user.profile.image.url }}" class="w3-circle w3-margin-right" style="width:46px">
+      <img src="{{ request.user.profile.image.url }}" class="w3-circle w3-margin-right" style="width:46px">
     </div>
     {% else %}
       <div class="w3-col s4">
@@ -21,8 +21,8 @@
       <div class="w3-col s8 w3-bar">
         <span>Welcome, <br>
           <!-- user has profile data -->
-          {% if user.profile.rank and user.get_full_name %}
-            <strong>{{ user.profile.rank }}{{ user.get_full_name }}</strong>
+          {% if request.user.profile.rank and request.user.get_full_name %}
+            <strong>{{ request.user.profile.rank }}{{ request.user.get_full_name }}</strong>
           {% else %}
             <a href="{% url 'account:profile-update' %}"><strong class="w3-red">Please Update Profile!!!!</strong></a>
           {% endif %}

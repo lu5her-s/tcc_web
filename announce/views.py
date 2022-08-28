@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
@@ -173,11 +174,12 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         form   = self.form_class(instance=self.get_object())
         images = AnnounceImage.objects.filter(announce=self.get_object())
+        files = AnnounceFile.objects.filter(announce=self.get_object())
         
         context = {
             'form'     : form,
             'images'   : images,
-            'files'    : images,
+            'files'    : files,
             'title'    : 'Update',
             'header'   : 'อัพเดทประชาสัมพันธ์/สั่งการ',
             'btn_text' : 'อัพเดท'
@@ -201,9 +203,14 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
                 form_save.save()
                 
             if files:
-                for f in files:
-                    a_file = AnnounceFile.objects.create(announce=form_id, files=f)
-                    a_file.save()
+                for file in files:
+                    try:
+                        a_file = InboxFile.objects.get(inbox=form_id)
+                        a_file.files = file
+                        a_file.save()
+                    except ObjectDoesNotExist:
+                        a_file = InboxFile.objects.create(inbox=form_id, files=file)
+                        a_file.save()
             else:
                 form_save.save()
                 
@@ -243,3 +250,6 @@ class AnnounceDeleteView(LoginRequiredMixin, DeleteView):
         context['btn_text'] = 'ลบ'
         return context
 
+def my_announce(request, user):
+    qs = Announce.objects.filter(author=user)
+    return render(request, 'announce/annoucne.html', {'object_list': qs})

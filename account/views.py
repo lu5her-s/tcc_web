@@ -33,6 +33,7 @@ from account.forms import (
 from announce.models import Announce, Comment
 from journal.models import Journal
 from assign.models import Assign
+from document.models import Inbox
 
 # Create your views here.
 
@@ -53,6 +54,8 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context['assign_staff_waiting'] = Assign.objects.filter(Q(author=self.request.user) & Q(accepted=False)).count()
         context['assign'] = Assign.objects.filter(assigned_to=self.request.user.profile)
         context['assign_waiting'] = Assign.objects.filter(Q(assigned_to=self.request.user.profile) & Q(accepted=False)).count()
+        context['journal'] = Journal.objects.filter(author=self.request.user)
+        context['doc_to_me'] = Inbox.objects.filter(assigned_to=self.request.user.profile)
         return context
 
 class RegisterView(CreateView):

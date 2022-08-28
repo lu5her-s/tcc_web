@@ -3,7 +3,7 @@
 {% load tz %}
 {% load tags %}
 
-{% block title %}{{ object.receive_no }}{% endblock title %}
+{% block title %}Inbox - {{ object.receive_no }}{% endblock title %}
 
 {% block content %}
 
@@ -82,8 +82,6 @@
     <br>
     
         <table class="w3-table">
-            <tr>
-                <td style="width:10%;">ผู้รับ</td>
                 <td style="width:46%;">{{ object.receiver.profile.rank }}{{ object.receiver.get_full_name }}</td>
 
                 <td>เมื่อ</td>
@@ -125,7 +123,7 @@
                         <td>
                             <iframe src="{{ file.files.url }}" frameborder="0" style="width: 100%; height: 800px;"></iframe>
                             <br>
-                            <a href="{{ file.files.url }}">เอกสารที่เกี่ยวข้อง--{{ f.files.name }}</a>
+                            {% comment %}<a href="{{ file.files.url }}">เอกสารที่เกี่ยวข้อง--{{ file.files.name }}</a>{% endcomment %}
                         </td>
                     </tr>
                 {% endfor %}
@@ -237,8 +235,7 @@
     {% if object.receiver.pk == request.user.pk %}
         <div class="w3-container w3-center">
             <a href="{% url 'document:inbox' %}" class="w3-bar-item w3-button w3-center w3-large w3-gray">Back</a>
-            <a href="{% url 'announce:delete' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-red">Delete</a>
-            <a href="{% url 'announce:update' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-green">Update</a>
+            <a href="{% url 'document:inbox-update' pk=object.pk %}" class="w3-bar-item w3-button w3-center w3-large w3-green">Update</a>
         </div>
     {% else %}
     <div class="w3-container w3-center">

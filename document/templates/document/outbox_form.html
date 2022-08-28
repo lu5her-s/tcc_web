@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Outbox - {{ title }}{% endblock title %}
+{% block content %}
+<style>
+    form {border: 3px solid #f1f1f1;}
+
+    {% comment %} input {
+        padding:8px;
+        display:block;
+        border:none;
+        border-bottom:1px solid #ccc;
+        width:100%
+    } {% endcomment %}
+
+    .imagecontainer {
+        text-align: center;
+        margin : 12px 0 6px 0;
+    }
+
+    img.avatar {
+        width: 25%;
+        border-radius: 50%;
+      }
+
+    button {
+        padding:14px 20px;
+        margin: 8px 0;
+        border-radius: 12px;
+        width: 100%;
+    }
+</style>
+<br>
+<div class="w3-container">
+    <h3>{{ header }}</h3>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="w3-container">
+
+        {{ form.media }}
+        {{ form|crispy }}
+        <br>
+        {% if files %}
+        <!--<p class="w3-text w3-disabled">ภาพปัจจุบัน</p>-->
+            {% for file in files %}
+            <a href="{{ file.files.url }}">เอกสาร {{ file.files.filename }}</a>
+            {% endfor %}
+            <br>
+        {% endif %}
+        
+        <button type="submit" class="w3-button w3-green w3-large">{{ btn_text }}</button>
+    </div>  
+
+    <div class="w3-bar">
+        {% if form.instance.id %}
+            <button class="w3-bar-item w3-button w3-right">
+                <a href="{% url 'announce:delete' pk=form.instance.pk %}">Delete</a>
+            </button>
+            <button type="reset" class="w3-bar-item w3-button w3-right">Reset</button>
+            <button class="w3-bar-item w3-button w3-right">
+                <a href="{% url 'document:inbox' %}" style="text-decoration: none;">Cancle</a>
+            </button>
+        {% else %}
+        
+        <button type="reset" class="w3-bar-item w3-button w3-right">Reset</button>
+        <button class="w3-bar-item w3-button w3-right">
+            <a href="{% url 'document:inbox' %}" style="text-decoration: none;">Cancle</a>
+        </button>
+
+        {% endif %}
+    </div>
+</form>
+
+<br><br><br>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    var name = "{{ user.id }}"
+    document.getElementById("sender").value = name;
+
+</script>
+{% endblock script %}

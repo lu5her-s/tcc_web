@@ -2,7 +2,7 @@ from django import forms
 from django.forms import widgets
 from django.contrib.auth.models import Group, User
 
-from document.models import Inbox
+from document.models import Inbox, Outbox
 from account.models import Profile
 
 class DateInput(widgets.DateTimeBaseInput):
@@ -58,3 +58,40 @@ class InboxForm(forms.ModelForm):
             # super().__init__(*args, **kwargs)
             # self.fields['assigned_to'].queryset = Profile.objects.all()
             # self.fields['assigned_group'].queryset = Group.objects.all()
+
+class OutboxForm(forms.ModelForm):
+    files = forms.FileField(
+            widget=widgets.ClearableFileInput(
+                attrs={
+                    'class': 'form-control',
+                    'multiple': True,
+                    }
+                ),
+            label='ไฟล์เอกสาร'
+            )
+    class Meta:
+        model = Outbox
+        fields = ('out_no', 'out_from', 'send_to', 'send_out', 'doc_no', 'urgency', 'title', 'doc_date', 'ref_doc', 'sender',)
+        widgets = {
+                'out_no':   widgets.TextInput(attrs={'class': 'form-control'}),
+                'out_from': widgets.Select(attrs={'class': 'form-control'}),
+                'send_to':  widgets.CheckboxSelectMultiple(attrs={'class': 'form-control'}),
+                'send_out': widgets.TextInput(attrs={'class': 'form-control', 'placeholder': 'นอกหน่วย นขต.กทข.ศทส.สส.'}),
+                'doc_no':   widgets.TextInput(attrs={'class': 'form-control'}),
+                'urgency':  widgets.Select(attrs={'class': 'form-control'}),
+                'title':    widgets.TextInput(attrs={'class': 'form-control'}),
+                'doc_date': DateInput(),
+                'ref_doc':  widgets.Select(attrs={'class': 'form-control'}),
+                'sender':   widgets.HiddenInput(attrs={'class': 'form-control', 'id': 'sender'}),
+                }
+        labels = {
+                'out_no': 'เลขออกที่',
+                'out_from': 'จาก',
+                'send_to': 'ถึง',
+                'send_out':'ส่งนอกหน่วย นขต.',
+                'doc_no':'เอกสารเลขที่',
+                'urgency':'ความเร่งด่วน',
+                'title':'เรื่อง',
+                'doc_date':'ลงวันที่',
+                'ref_doc':'อ้างถึง',
+                }
