@@ -1,8 +1,17 @@
+<!DOCTYPE html>
+<!--
+ - File              : document_form.html
+ - Author            : lu5her <lu5her@mail>
+ - Date              : Sat Sep, 03 2022, 22:51 246
+ - Last Modified Date: Sat Sep, 03 2022, 22:51 246
+ - Last Modified By  : lu5her <lu5her@mail>
+-->
+
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block title %}Inbox - {{ title }}{% endblock title %}
+{% block title %}Document - {{ title }}{% endblock title %}
 {% block content %}
 <style>
     form {border: 3px solid #f1f1f1;}
@@ -45,10 +54,10 @@
         {{ form.media }}
         {{ form|crispy }}
         <br>
-        {% if files %}
-        <!--<p class="w3-text w3-disabled">ภาพปัจจุบัน</p>-->
-            {% for file in files %}
-            <a href="{{ file.files.url }}">เอกสาร {{ file.files.filename }}</a>
+        {% if images %}
+            <p class="w3-text w3-disabled">ภาพปัจจุบัน</p>
+            {% for image in images %}
+            <img src="{{ image.images.url }}" class="w3-image" width="200" height="100">
             {% endfor %}
             <br>
         {% endif %}
@@ -59,17 +68,17 @@
     <div class="w3-bar">
         {% if form.instance.id %}
             <button class="w3-bar-item w3-button w3-right">
-                <a href="{% url 'announce:delete' pk=form.instance.pk %}">Delete</a>
+                <a href="{% url 'assign:delete' pk=form.instance.pk %}">Delete</a>
             </button>
             <button type="reset" class="w3-bar-item w3-button w3-right">Reset</button>
             <button class="w3-bar-item w3-button w3-right">
-                <a href="{% url 'document:inbox' %}" style="text-decoration: none;">Cancle</a>
+                <a href="{% url 'assign:list' %}" style="text-decoration: none;">Cancle</a>
             </button>
         {% else %}
         
         <button type="reset" class="w3-bar-item w3-button w3-right">Reset</button>
         <button class="w3-bar-item w3-button w3-right">
-            <a href="{% url 'document:inbox' %}" style="text-decoration: none;">Cancle</a>
+            <a href="{% url 'assign:list' %}" style="text-decoration: none;">Cancle</a>
         </button>
 
         {% endif %}
@@ -83,7 +92,7 @@
 {% block script %}
 <script>
     var name = "{{ user.id }}"
-    document.getElementById("receiver").value = name;
+    document.getElementById("author").value = name;
 
 </script>
 {% endblock script %}

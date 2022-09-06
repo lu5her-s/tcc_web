@@ -46,7 +46,7 @@ a {
                     <span style="float: right; font-size: 20px">{{ outbox.count }}</span>
                 </div>
             </div>
-            <a class="card-footer text-black clearfix small z-1" href="{% url 'document:outbox' %}">
+            <a class="card-footer text-black clearfix small z-1" href="{% url 'document:home' %}">
                 <span class="float-left"><b>Manage</b></span>
                 <span class="float-right">
                     <i class="fa fa-angle-right" style="float: right;"></i>
@@ -54,11 +54,6 @@ a {
             </a>
         </div>
     </div>
-
-
-</div>
-
-<div class="row justify-content-center">
 
     <div class="col-xl-3 col-sm-6 mb-3">
         <div class="card text-white w3-deep-orange o-hidden h-100">
@@ -69,7 +64,7 @@ a {
                     <span style="float: right; font-size: 20px">{{ to_me.count }}</span>
                 </div>
             </div>
-            <a class="card-footer text-white clearfix small z-1" href="{% url 'document:to-me' %}">
+            <a class="card-footer text-white clearfix small z-1" href="{% url 'document:home' %}">
                 <span class="float-left"><b>Manage</b></span>
                 <span class="float-right">
                     <i class="fa fa-angle-right" style="float: right;"></i>
@@ -78,25 +73,33 @@ a {
         </div>
     </div>
 
-    <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white w3-light-blue o-hidden h-100">
-            <div class="card-body">
-                <div class="card-body-icon">
-                    <i class="fa fa-inbox" style="font-size: 30px;"></i>
-                    &nbsp;<b style="font-size: 20px">เอกสารถึงแผนก</b>
-                    <span style="float: right; font-size: 20px;">{{ to_sector.count }}</span>
-                </div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="{% url 'document:to-sector' %}">
-                <span class="float-left"><b>Manage</b></span>
-                <span class="float-right">
-                    <i class="fa fa-angle-right" style="float: right;"></i>
-                </span>
-            </a>
-        </div>
-    </div>
 </div>
 
+{% if request.user|has_group:'Staff' %}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white w3-blue o-hidden h-100">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fa fa-cloud-download" style="font-size: 30px;"></i>
+                    &nbsp;<b style="font-size: 20px;">เอกสารทั้งหมด</b>
+                    <span style="float: right; font-size: 20px">{{ to_me.count }}</span>
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="{% url 'document:home' %}">
+                <span class="float-left"><b>Manage</b></span>
+                <span class="float-right">
+                    <i class="fa fa-angle-right" style="float: right;"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endif %}
 
 <br>
 <hr>

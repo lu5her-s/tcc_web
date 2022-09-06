@@ -101,13 +101,13 @@ input {
     <table class="w3-table">
         {% if note %}
         <tr>
-            <td>
                 <b><h4>รายละเอียดการดำเนินการ</h4></b>
-            </td>
         </tr>
+        <hr>
         {% for n in note %}
         <tr style="border-bottom: 2px dashed black;">
-            <td style="width: 70%">{{ n.note|linebreaks }}</td>
+            <td style="width: 20%">{{ n.status }}</td>
+            <td style="width: 50%">{{ n.note|linebreaks }}</td>
             <td>{{ n.created_at|thaidate }} เวลา {{ n.created_at|date:"H:m" }} น.</td>
         </tr>
         {% endfor %}

@@ -109,6 +109,7 @@ class JournalUpdateView(LoginRequiredMixin, UpdateView):
             form_id   = get_object_or_404(Journal, pk=form_save.pk)
             
             if images:
+                
                 for image in images:
                     a_image = JournalImage.objects.create(journal=form_id, images=image)
                     a_image.save()

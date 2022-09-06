@@ -62,6 +62,7 @@ class AssignProgress(models.Model):
     """For Update Assign Progress"""
     assign     = models.ForeignKey(Assign,       on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    status     = models.CharField(max_length=255, null=True, blank=True)
     note       = models.TextField(null=True, blank=True)
 
     class Meta:

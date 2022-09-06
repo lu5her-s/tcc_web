@@ -168,7 +168,7 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
     success_url   = reverse_lazy('announce:list')
     
     def get_success_url(self):
-        return reverse('announce:detail', kwargs={'pk': self.pk})
+        return reverse('announce:detail', kwargs={'pk': self.get_object().pk})
 
     
     def get(self, request, *args, **kwargs):
@@ -196,7 +196,15 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
             form_id   = get_object_or_404(Announce, pk=form_save.pk)
             
             if images:
+                # all_images = AnnounceImage.objects.filter(announce=form_id).delete()
+                # all_images.delete()
+                # all_image.save()
                 for image in images:
+                    # try:
+                        # a_image = AnnounceImage.objects.get(announce=form_id)
+                        # a_image.images = images
+                        # a_image.save()
+                    # except ObjectDoesNotExist:
                     a_image = AnnounceImage.objects.create(announce=form_id, images=image)
                     a_image.save()
             else:
@@ -205,14 +213,15 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
             if files:
                 for file in files:
                     try:
-                        a_file = InboxFile.objects.get(inbox=form_id)
+                        a_file = AnnounceFile.objects.get(announce=form_id)
                         a_file.files = file
                         a_file.save()
                     except ObjectDoesNotExist:
-                        a_file = InboxFile.objects.create(inbox=form_id, files=file)
+                        a_file = AnnounceFile.objects.create(announce=form_id, files=file)
                         a_file.save()
             else:
                 form_save.save()
+            return redirect(self.get_success_url())
                 
         else:
             form = self.form_class(instance=self.get_object())

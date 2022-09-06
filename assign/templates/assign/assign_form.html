@@ -86,4 +86,32 @@
     document.getElementById("author").value = name;
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-selectme@0.2.0/lib/jquery.selectMe.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/jquery-selectme@0.2.0/lib/jquery.selectMe.css" rel="style">
+<script>
+    $('select').selectMe({
+    cssFile: 'https://cdn.jsdelivr.net/npm/jquery-selectme@0.2.0/lib/jquery.selectMe.css',
+    width: '100%',
+    columnCount: 1,
+    search: true,
+    locale: 'en',
+    localeResource: { 
+        'en': {
+            none: 'None selected',
+            from: 'from',
+            search: 'Search',
+            selectAll: 'Select all',
+            unselectAll: 'Unselect all',
+            showSelected: 'Show selected',
+        } 
+    },
+    // Callbacks
+    onLoad: function( element ) {},
+    onDropdownOpen: function( element ) {},
+    onDropdownClose: function( element ) {},
+    onSearch: function( element ) {},
+    onOptionValueChanged: function( element ) {},
+});
+</script>
+
 {% endblock script %}

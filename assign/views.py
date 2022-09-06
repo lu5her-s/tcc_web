@@ -16,6 +16,7 @@ from assign.models import (
     Assign,
     AssignImage,
     AssignProgress,
+    AssignStatus,
     )
 
 # Create your views here.
@@ -59,8 +60,10 @@ class AssignDetailView(LoginRequiredMixin, DetailView):
         note_form = NoteForm(request.POST)
         if form.is_valid() and note_form.is_valid():
             note = request.POST.get('note')
+            status_id = request.POST.get('status')
+            status = AssignStatus.objects.get(pk=status_id).name
             form.save()
-            note_save = AssignProgress.objects.create(assign=self.get_object(), note=note)
+            note_save = AssignProgress.objects.create(assign=self.get_object(), note=note, status=status)
             note_save.save()
             return HttpResponseRedirect(self.request.path_info)
     
@@ -129,7 +132,7 @@ class AssignUpdateView(LoginRequiredMixin, UpdateView):
     success_url   = reverse_lazy('announce:list')
     
     def get_success_url(self):
-        return reverse('assign:detail', kwargs={'pk': self.pk})
+        return reverse('assign:detail', kwargs={'pk': self.get_object().pk})
 
     
     def get(self, request, *args, **kwargs):
@@ -159,6 +162,7 @@ class AssignUpdateView(LoginRequiredMixin, UpdateView):
                     a_image.save()
             else:
                 form_save.save()
+            return redirect(self.get_success_url())
                 
         else:
             form = self.form_class(instance=self.get_object())
