@@ -11,7 +11,7 @@ from django.views.generic import (
         TemplateView,
         UpdateView,
         )
-from account.models import Sector
+# from account.models import Sector
 from document.forms import InboxForm, OutboxForm
 
 from document.models import Inbox, InboxFile, Outbox, OutboxFile
@@ -29,6 +29,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context['to_sector'] = Inbox.objects.filter(assigned_group=self.request.user.profile.sector)
         context['outbox'] = Outbox.objects.all()
         return context
+
 
 def to_me(request):
     qs = Inbox.objects.filter(assigned_to=request.user.profile)

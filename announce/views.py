@@ -42,13 +42,13 @@ class AnnounceListView(LoginRequiredMixin, ListView):
     # context_object_name = 'announce_list'
     paginate_by         = 20
     ordering            = ('-created_at')
-    
+
     def get_context_data(self, **kwargs):
         context   = super(AnnounceListView, self).get_context_data(**kwargs)
         context['read']   = Announce.objects.filter(reads__id=self.request.user.id)
         context['header'] = "ประชาสัมพันธ์"
         return context
-    
+
 def announce_read(request, pk):
     announce = get_object_or_404(Announce, pk=request.POST.get('announce_id'))
     if announce.reads.filter(id=request.user.id).exists():
@@ -62,10 +62,10 @@ class AnnounceDetailView(LoginRequiredMixin, DetailView):
     template_name       = 'announce/announce_detail.html'
     model               = Announce
     # context_object_name = 'announce'
-    
+
     def get_context_data(self, **kwargs):
         context = super(AnnounceDetailView, self).get_context_data(**kwargs)
-        
+
         read_connected = get_object_or_404(Announce, pk=self.object.pk)
         read           = False
         if read_connected.reads.filter(id=self.request.user.id).exists():
@@ -77,14 +77,14 @@ class AnnounceDetailView(LoginRequiredMixin, DetailView):
         context['is_read']          = read
         context['comments']         = Comment.objects.filter(announce=self.object)
         context['comments_count']   = Comment.objects.filter(announce=self.object).count()
-        
+
         return context
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         context     = self.get_context_data(object=self.object)
         return self.render_to_response(context)
-    
+
     def post(self, request, *args, **kwargs):
         self.object  = self.get_object()
         context      = self.get_context_data(object=self.object)
@@ -118,39 +118,39 @@ class AnnounceCreateView(LoginRequiredMixin, CreateView):
             tokens    = request.POST.getlist('tokens')
             form_save = form.save()
             form_id   = get_object_or_404(Announce, pk=form_save.pk)
-            
+
             if images:
                 for image in images:
                     a_image = AnnounceImage(announce=form_id, images=image)
                     a_image.save()
             else:
                 form_save.save()
-                
+
             if files:
                 for f in files:
                     a_file = AnnounceFile(announce=form_id, files=f)
                     a_file.save()
             else:
                 form_save.save()
-                
+
             if tokens:
                 host = request.get_host()
                 path = reverse_lazy('announce:detail', args=[str(form_id.pk)])
                 url  = 'http://' + host + path
                 head = '\nมี : ' + form_save.is_type.name + 'ใหม่'
                 body = '\nเรื่อง : ' + form_save.name + '\n' + 'รายละเอียดเพิ่มเติม :' + url
-                
+
                 for token_id in tokens:
                     token = LineToken.objects.get(id=token_id).token
                     line  = Sendline(token)
                     line.sendtext(head + body)
                     # print(token)
-                
+
             return redirect(self.success_url)
-        
+
         else:
             form = self.form_class()
-            
+
         context = {
             'form'     : form,
             'title'    : 'Create',
@@ -166,16 +166,16 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
     form_class    = AnnounceForm
     pk            = None
     success_url   = reverse_lazy('announce:list')
-    
+
     def get_success_url(self):
         return reverse('announce:detail', kwargs={'pk': self.pk})
 
-    
+
     def get(self, request, *args, **kwargs):
         form   = self.form_class(instance=self.get_object())
         images = AnnounceImage.objects.filter(announce=self.get_object())
         files = AnnounceFile.objects.filter(announce=self.get_object())
-        
+
         context = {
             'form'     : form,
             'images'   : images,
@@ -185,7 +185,7 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
             'btn_text' : 'อัพเดท'
         }
         return render(request, self.template_name, context)
-    
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES, instance=self.get_object())
 
@@ -194,14 +194,14 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
             files     = request.FILES.getlist('files')
             form_save = form.save()
             form_id   = get_object_or_404(Announce, pk=form_save.pk)
-            
+
             if images:
                 for image in images:
                     a_image = AnnounceImage.objects.create(announce=form_id, images=image)
                     a_image.save()
             else:
                 form_save.save()
-                
+
             if files:
                 for file in files:
                     try:
@@ -213,7 +213,7 @@ class AnnounceUpdateView(LoginRequiredMixin, UpdateView):
                         a_file.save()
             else:
                 form_save.save()
-                
+
         else:
             form = self.form_class(instance=self.get_object())
 
@@ -226,7 +226,7 @@ class AnnounceNotReadView(LoginRequiredMixin, ListView):
     # context_object_name = 'announce_list'
     paginate_by   = 20
     ordering      = ('-created_at')
-    
+
     def get_queryset(self):
         # return super().get_queryset()
         qs = Announce.objects.filter(~Q(author=self.request.user) & ~Q(reads__id=self.request.user.id))
@@ -243,7 +243,7 @@ class AnnounceDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'announce/announce_delete.html'
     model         = Announce
     success_url   = reverse_lazy('announce:list')
-    
+
     def get_context_data(self, **kwargs):
         context             = super().get_context_data(**kwargs)
         context['header']   = 'ยืนยันการลบ'

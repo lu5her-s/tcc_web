@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Author            : lu5her <lu5her@mail>
+# Date              : Wed Sep, 21 2022, 17:52 264
+# Last Modified Date: Wed Sep, 21 2022, 17:52 264
+# Last Modified By  : lu5her <lu5her@mail>
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
@@ -21,11 +29,11 @@ from assign.models import (
 # Create your views here.
 
 class AssignStaffListView(LoginRequiredMixin, ListView):
-    login_url = reverse_lazy('login')
-    model               = Assign
-    template_name       = 'assign/assign.html'
-    ordering            = ('-created_at')
-    
+    login_url     = reverse_lazy('login')
+    model         = Assign
+    template_name = 'assign/assign.html'
+    ordering      = ('-created_at')
+
     def get_queryset(self):
         qs = Assign.objects.filter(author=self.request.user)
         return qs
@@ -35,11 +43,11 @@ class AssignListView(LoginRequiredMixin, ListView):
     model               = Assign
     template_name       = 'assign/assign.html'
     ordering            = ('-created_at')
-    
+
     def get_queryset(self):
         qs = Assign.objects.filter(assigned_to=self.request.user.profile)
         return qs
-    
+
 class AssignDetailView(LoginRequiredMixin, DetailView):
     login_url = reverse_lazy('login')
     template_name       = 'assign/assign_detail.html'
@@ -63,7 +71,7 @@ class AssignDetailView(LoginRequiredMixin, DetailView):
             note_save = AssignProgress.objects.create(assign=self.get_object(), note=note)
             note_save.save()
             return HttpResponseRedirect(self.request.path_info)
-    
+
 class AssignCreateView(LoginRequiredMixin, CreateView):
     login_url     = reverse_lazy('login')
     template_name = 'assign/assign_form.html'
@@ -86,32 +94,32 @@ class AssignCreateView(LoginRequiredMixin, CreateView):
             images    = request.FILES.getlist('images')
             form_save = form.save()
             form_id   = get_object_or_404(Assign, pk=form_save.pk)
-            
+
             if images:
                 for image in images:
                     a_image = AssignImage(announce=form_id, images=image)
                     a_image.save()
             else:
                 form_save.save()
-                
+
             #if tokens:
                 #host = request.get_host()
                 #path = reverse_lazy('announce:detail', args=[str(form_id.pk)])
                 #url = 'http://' + host + path
                 #head = '\nมี : ' + form_save.is_type.name + 'ใหม่'
                 #body = '\nเรื่อง : ' + form_save.name + '\n' + 'รายละเอียดเพิ่มเติม :' + url
-                
+
                 #for token_id in tokens:
                     #token = LineToken.objects.get(id=token_id).token
                     #line = Sendline(token)
                     #line.sendtext(head + body)
                     # print(token)
-                
+
             return redirect(self.success_url)
-        
+
         else:
             form = self.form_class()
-            
+
         context = {
             'form'     : form,
             'title'    : 'Create',
@@ -127,15 +135,15 @@ class AssignUpdateView(LoginRequiredMixin, UpdateView):
     form_class    = AssignForm
     pk            = None
     success_url   = reverse_lazy('announce:list')
-    
+
     def get_success_url(self):
         return reverse('assign:detail', kwargs={'pk': self.pk})
 
-    
+
     def get(self, request, *args, **kwargs):
         form   = self.form_class(instance=self.get_object())
         images = AssignImage.objects.filter(assign=self.get_object())
-        
+
         context = {
             'form'     : form,
             'images'   : images,
@@ -144,7 +152,7 @@ class AssignUpdateView(LoginRequiredMixin, UpdateView):
             'btn_text' : 'อัพเดท'
         }
         return render(request, self.template_name, context)
-    
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES, instance=self.get_object())
 
@@ -152,14 +160,14 @@ class AssignUpdateView(LoginRequiredMixin, UpdateView):
             images    = request.FILES.getlist('images')
             form_save = form.save()
             form_id   = get_object_or_404(Assign, pk=form_save.pk)
-            
+
             if images:
                 for image in images:
                     a_image = AssignImage.objects.create(assign=form_id, images=image)
                     a_image.save()
             else:
                 form_save.save()
-                
+
         else:
             form = self.form_class(instance=self.get_object())
 
@@ -171,7 +179,7 @@ class AssignNotAcceptedView(LoginRequiredMixin, ListView):
     template_name = 'assign/assign.html'
     # context_object_name = 'announce_list'
     ordering      = ('-created_at')
-    
+
     def get_queryset(self):
         # return super().get_queryset()
         qs = Assign.objects.filter(~Q(author=self.request.user) & ~Q(accepted=False))
